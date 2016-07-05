@@ -1,0 +1,21 @@
+{
+    "id" : "json-report",
+    "version" : "0.0.1",
+    "name" : "JSON Report",
+    "description" : "JSON reporting plugin",
+    "install": {
+        "windows": [],
+        "linux": [],
+        "darwin": []
+    },
+    "command" : {
+        "windows" : ["bin/json-report"],
+        "linux" : ["bin/json-report"],
+        "darwin" : ["bin/json-report"]
+    },
+    "scope" : ["Execution"],
+    "gaugeVersionSupport": {
+        "minimum": "0.3.0",
+        "maximum": ""
+    }
+}
