@@ -2,6 +2,15 @@ json-report
 ==========
 JSON reporting for [Gauge](http://getgauge.io)
 
+Install through Gauge
+---------------------
+
+### Offline installation
+* Download the plugin from [Releases](https://github.com/apoorvam/json-report/releases)
+```
+gauge --install json-report --file <path_to_plugin_zip_file>
+```
+
 Build from Source
 -----------------
 
