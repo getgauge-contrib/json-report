@@ -20,16 +20,15 @@ const (
 	overwriteReportsEnvProperty = "overwrite_reports"
 	jsonReportFile              = "report.json"
 	jsonReport                  = "json-report"
-	SETUP_ACTION                = "setup"
-	EXECUTION_ACTION            = "execution"
-	GAUGE_HOST                  = "localhost"
-	GAUGE_PORT_ENV              = "plugin_connection_port"
-	PLUGIN_ACTION_ENV           = "json-report_action"
+	setupAction                 = "setup"
+	executionAction             = "execution"
+	gaugeHost                   = "localhost"
+	gaugePortEnv                = "plugin_connection_port"
+	pluginActionEnv             = "json-report_action"
 	timeFormat                  = "2006-01-02 15.04.05"
 )
 
 var projectRoot string
-var pluginDir string
 
 type nameGenerator interface {
 	randomName() string
@@ -42,30 +41,12 @@ func (T timeStampedNameGenerator) randomName() string {
 	return time.Now().Format(timeFormat)
 }
 
-func findPluginAndProjectRoot() {
+func findProjectRoot() {
 	projectRoot = os.Getenv(common.GaugeProjectRootEnv)
 	if projectRoot == "" {
 		fmt.Printf("Environment variable '%s' is not set. \n", common.GaugeProjectRootEnv)
 		os.Exit(1)
 	}
-
-	var err error
-	pluginDir, err = os.Getwd()
-	if err != nil {
-		fmt.Printf("Error finding current working directory: %s \n", err)
-		os.Exit(1)
-	}
-}
-
-func createExecutionReport() {
-	os.Chdir(projectRoot)
-	listener, err := newGaugeListener(GAUGE_HOST, os.Getenv(GAUGE_PORT_ENV))
-	if err != nil {
-		fmt.Println("Could not create the gauge listener")
-		os.Exit(1)
-	}
-	listener.OnSuiteResult(createReport)
-	listener.Start()
 }
 
 func addDefaultPropertiesToProject() {
@@ -92,8 +73,15 @@ func addDefaultPropertiesToProject() {
 	fmt.Println("Succesfully added configurations for json-report to env/default/default.properties")
 }
 
-func getDefaultPropertiesFile() string {
-	return filepath.Join(projectRoot, "env", "default", "default.properties")
+func createExecutionReport() {
+	os.Chdir(projectRoot)
+	listener, err := newGaugeListener(gaugeHost, os.Getenv(gaugePortEnv))
+	if err != nil {
+		fmt.Println("Could not create the gauge listener")
+		os.Exit(1)
+	}
+	listener.OnSuiteResult(createReport)
+	listener.Start()
 }
 
 func createReport(suiteResult *gauge_messages.SuiteExecutionResult) {
@@ -107,16 +95,6 @@ func createReport(suiteResult *gauge_messages.SuiteExecutionResult) {
 	}
 }
 
-func getNameGen() nameGenerator {
-	var nameGen nameGenerator
-	if shouldOverwriteReports() {
-		nameGen = nil
-	} else {
-		nameGen = timeStampedNameGenerator{}
-	}
-	return nameGen
-}
-
 func createJSONReport(reportsDir string, jsonContents []byte, nameGen nameGenerator) (string, error) {
 	var currentReportDir string
 	if nameGen != nil {
@@ -128,30 +106,13 @@ func createJSONReport(reportsDir string, jsonContents []byte, nameGen nameGenera
 	return currentReportDir, writeResultJSONFile(currentReportDir, jsonContents)
 }
 
-func createReportsDirectory() string {
-	reportsDir, err := filepath.Abs(os.Getenv(gaugeReportsDirEnvName))
-	if reportsDir == "" || err != nil {
-		reportsDir = defaultReportsDir
-	}
-	createDirectory(reportsDir)
-	return reportsDir
-}
-
 func writeResultJSONFile(reportDir string, jsonContents []byte) error {
 	resultJsPath := filepath.Join(reportDir, jsonReportFile)
 	err := ioutil.WriteFile(resultJsPath, jsonContents, common.NewFilePermissions)
 	if err != nil {
-		return fmt.Errorf("Failed to copy file: %s %s\n", jsonReportFile, err.Error())
+		return fmt.Errorf("failed to copy file: %s %s", jsonReportFile, err.Error())
 	}
 	return nil
-}
-
-func shouldOverwriteReports() bool {
-	envValue := os.Getenv(overwriteReportsEnvProperty)
-	if strings.ToLower(envValue) == "true" {
-		return true
-	}
-	return false
 }
 
 func generateJSONFileContents(suiteResult *gauge_messages.SuiteExecutionResult) []byte {
@@ -182,6 +143,37 @@ func marshal(item interface{}) []byte {
 		os.Exit(1)
 	}
 	return marshalledResult
+}
+
+func getNameGen() nameGenerator {
+	var nameGen nameGenerator
+	if shouldOverwriteReports() {
+		nameGen = nil
+	} else {
+		nameGen = timeStampedNameGenerator{}
+	}
+	return nameGen
+}
+
+func getDefaultPropertiesFile() string {
+	return filepath.Join(projectRoot, "env", "default", "default.properties")
+}
+
+func shouldOverwriteReports() bool {
+	envValue := os.Getenv(overwriteReportsEnvProperty)
+	if strings.ToLower(envValue) == "true" {
+		return true
+	}
+	return false
+}
+
+func createReportsDirectory() string {
+	reportsDir, err := filepath.Abs(os.Getenv(gaugeReportsDirEnvName))
+	if reportsDir == "" || err != nil {
+		reportsDir = defaultReportsDir
+	}
+	createDirectory(reportsDir)
+	return reportsDir
 }
 
 func createDirectory(dir string) {
