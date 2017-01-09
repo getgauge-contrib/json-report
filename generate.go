@@ -202,16 +202,8 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) *spec {
 	}
 	for _, item := range psr.GetProtoSpec().GetItems() {
 		switch item.GetItemType() {
-		case gauge_messages.ProtoItem_Comment:
-			spec.Items = append(spec.Items, toComment(item.GetComment()))
-		case gauge_messages.ProtoItem_Table:
-			spec.Items = append(spec.Items, toTable(item.GetTable()))
 		case gauge_messages.ProtoItem_Scenario:
 			spec.Items = append(spec.Items, toScenario(item.GetScenario()))
-		case gauge_messages.ProtoItem_Tags:
-			spec.Items = append(spec.Items, toTag(item.GetTags()))
-		case gauge_messages.ProtoItem_Step:
-			spec.Items = append(spec.Items, toStep(item.GetStep()))
 		case gauge_messages.ProtoItem_Concept:
 			spec.Items = append(spec.Items, toConcept(item.GetConcept()))
 		case gauge_messages.ProtoItem_TableDrivenScenario:
@@ -273,8 +265,6 @@ func toItems(protoItems []*gauge_messages.ProtoItem) []item {
 		switch i.GetItemType() {
 		case gauge_messages.ProtoItem_Step:
 			items = append(items, toStep(i.GetStep()))
-		case gauge_messages.ProtoItem_Comment:
-			items = append(items, toComment(i.GetComment()))
 		case gauge_messages.ProtoItem_Concept:
 			items = append(items, toConcept(i.GetConcept()))
 		}
