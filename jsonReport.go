@@ -95,6 +95,22 @@ func createReport(suiteResult *gauge_messages.SuiteExecutionResult) {
 	}
 }
 
+func generateJSONFileContents(protoSuiteExeResult *gauge_messages.SuiteExecutionResult) []byte {
+	var buffer bytes.Buffer
+	suiteRes := toSuiteResult(protoSuiteExeResult.GetSuiteResult())
+	buffer.WriteString(fmt.Sprintf("%s", marshal(suiteRes)))
+	return buffer.Bytes()
+}
+
+func marshal(item interface{}) []byte {
+	marshalledResult, err := json.MarshalIndent(item, "", "\t")
+	if err != nil {
+		fmt.Printf("Failed to convert to json :%s\n", err)
+		os.Exit(1)
+	}
+	return marshalledResult
+}
+
 func createJSONReport(reportsDir string, jsonContents []byte, nameGen nameGenerator) (string, error) {
 	var currentReportDir string
 	if nameGen != nil {
@@ -113,36 +129,6 @@ func writeResultJSONFile(reportDir string, jsonContents []byte) error {
 		return fmt.Errorf("failed to copy file: %s %s", jsonReportFile, err.Error())
 	}
 	return nil
-}
-
-func generateJSONFileContents(suiteResult *gauge_messages.SuiteExecutionResult) []byte {
-	var buffer bytes.Buffer
-	executionResultJSON := marshal(suiteResult)
-	itemsTypeJSON := marshal(convertKeysToString(gauge_messages.ProtoItem_ItemType_name))
-	parameterTypeJSON := marshal(convertKeysToString(gauge_messages.Parameter_ParameterType_name))
-	fragmentTypeJSON := marshal(convertKeysToString(gauge_messages.Fragment_FragmentType_name))
-
-	buffer.WriteString(fmt.Sprintf("{\"result\": %s,\n\"itemTypes\": %s,\n\"parameterTypes\": %s,\n\"fragmentTypes\":%s\n }",
-		executionResultJSON, itemsTypeJSON, parameterTypeJSON, fragmentTypeJSON))
-
-	return buffer.Bytes()
-}
-
-func convertKeysToString(intKeyMap map[int32]string) map[string]string {
-	stringKeyMap := make(map[string]string, 0)
-	for key, val := range intKeyMap {
-		stringKeyMap[fmt.Sprintf("%d", key)] = val
-	}
-	return stringKeyMap
-}
-
-func marshal(item interface{}) []byte {
-	marshalledResult, err := json.MarshalIndent(item, "", "\t")
-	if err != nil {
-		fmt.Printf("Failed to convert to json :%s\n", err)
-		os.Exit(1)
-	}
-	return marshalledResult
 }
 
 func getNameGen() nameGenerator {
