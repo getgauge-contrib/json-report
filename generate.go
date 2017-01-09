@@ -8,6 +8,7 @@ import (
 
 type tokenKind string
 type status string
+type errorType string
 
 const (
 	pass                    status    = "pass"
@@ -21,6 +22,8 @@ const (
 	stepKind                tokenKind = "step"
 	conceptKind             tokenKind = "concept"
 	tableKind               tokenKind = "table"
+	assertionErrorType      errorType = "assertion"
+	verificationErrorType   errorType = "verification"
 )
 
 type item interface {
@@ -29,14 +32,14 @@ type item interface {
 
 type suiteResult struct {
 	Specs                  []*spec      `json:"specs"`
-	BeforeSuiteHookFailure *hookFailure `json:"beforeSuiteHookFailure,omitempty"`
-	AfterSuiteHookFailure  *hookFailure `json:"afterSuiteHookFailure,omitempty"`
+	BeforeSuiteHookFailure *hookFailure `json:"beforeSuiteHookFailure"`
+	AfterSuiteHookFailure  *hookFailure `json:"afterSuiteHookFailure"`
 	ExecutionStatus        status       `json:"executionStatus"`
 	ExecutionTime          int64        `json:"executionTime"`
 	PassedSpecsCount       int          `json:"passedSpecsCount"`
 	FailedSpecsCount       int          `json:"failedSpecsCount"`
 	SkippedSpecsCount      int          `json:"skippedSpecsCount"`
-	UnhandledErrors        []error      `json:"unhandledErrors,omitempty"`
+	UnhandledErrors        []error      `json:"unhandledErrors"`
 	Environment            string       `json:"environment"`
 	Tags                   string       `json:"tags"`
 	ProjectName            string       `json:"projectName"`
@@ -50,8 +53,8 @@ type spec struct {
 	FileName              string       `json:"fileName"`
 	Tags                  []string     `json:"tags"`
 	Items                 []item       `json:"items"`
-	BeforeSpecHookFailure *hookFailure `json:"beforeSpecHookFailure,omitempty"`
-	AfterSpecHookFailure  *hookFailure `json:"afterSpecHookFailure,omitempty"`
+	BeforeSpecHookFailure *hookFailure `json:"beforeSpecHookFailure"`
+	AfterSpecHookFailure  *hookFailure `json:"afterSpecHookFailure"`
 	ExecutionStatus       status       `json:"executionStatus"`
 	ExecutionTime         int64        `json:"executionTime"`
 	ScenarioFailedCount   int          `json:"scenarioFailedCount"`
@@ -66,8 +69,8 @@ type scenario struct {
 	Items                     []item       `json:"items"`
 	ExecutionStatus           status       `json:"executionStatus"`
 	ExecutionTime             int64        `json:"executionTime"`
-	BeforeScenarioHookFailure *hookFailure `json:"beforeScenarioHookFailure,omitempty"`
-	AfterScenarioHookFailure  *hookFailure `json:"afterScenarioHookFailure,omitempty"`
+	BeforeScenarioHookFailure *hookFailure `json:"beforeScenarioHookFailure"`
+	AfterScenarioHookFailure  *hookFailure `json:"afterScenarioHookFailure"`
 	Tags                      []string     `json:"tags"`
 	SkipErrors                []string     `json:"skipErrors"`
 }
@@ -87,14 +90,16 @@ func (t *tableDrivenScenario) kind() tokenKind {
 }
 
 type result struct {
-	Status        status   `json:"status"`
-	StackTrace    string   `json:"stackTrace"`
-	Screenshot    string   `json:"screenshot"`
-	ErrorMessage  string   `json:"errorMessage"`
-	ExecutionTime int64    `json:"executionTime"`
-	SkippedReason string   `json:"skippedReason"`
-	Messages      []string `json:"messages"`
+	Status        status    `json:"status"`
+	StackTrace    string    `json:"stackTrace"`
+	Screenshot    string    `json:"screenshot"`
+	ErrorMessage  string    `json:"errorMessage"`
+	ExecutionTime int64     `json:"executionTime"`
+	SkippedReason string    `json:"skippedReason"`
+	Messages      []string  `json:"messages"`
+	ErrorType     errorType `json:"errorType"`
 }
+
 type hookFailure struct {
 	ErrMsg     string `json:"errorMessage"`
 	Screenshot string `json:"screenshot"`
@@ -104,8 +109,8 @@ type hookFailure struct {
 type step struct {
 	ItemType              tokenKind    `json:"itemType"`
 	StepText              string       `json:"StepText"`
-	BeforeStepHookFailure *hookFailure `json:"beforeStepHookFailure,omitempty"`
-	AfterStepHookFailure  *hookFailure `json:"afterStepHookFailure,omitempty"`
+	BeforeStepHookFailure *hookFailure `json:"beforeStepHookFailure"`
+	AfterStepHookFailure  *hookFailure `json:"afterStepHookFailure"`
 	Result                *result      `json:"result"`
 }
 
@@ -294,6 +299,7 @@ func toStep(protoStep *gauge_messages.ProtoStep) *step {
 		ErrorMessage:  res.GetErrorMessage(),
 		ExecutionTime: res.GetExecutionTime(),
 		Messages:      res.GetMessage(),
+		ErrorType:     getErrorType(res.GetErrorType()),
 	}
 	if protoStep.GetStepExecutionResult().GetSkipped() {
 		result.SkippedReason = protoStep.GetStepExecutionResult().GetSkippedReason()
@@ -325,6 +331,12 @@ func toHookFailure(failure *gauge_messages.ProtoHookFailure) *hookFailure {
 		Screenshot: base64.StdEncoding.EncodeToString(failure.GetScreenShot()),
 		StackTrace: failure.GetStackTrace(),
 	}
+}
+func getErrorType(protoErrType gauge_messages.ProtoExecutionResult_ErrorType) errorType {
+	if protoErrType == gauge_messages.ProtoExecutionResult_VERIFICATION {
+		return verificationErrorType
+	}
+	return assertionErrorType
 }
 
 func getStatus(failed, skipped bool) status {
