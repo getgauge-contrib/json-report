@@ -1,0 +1,99 @@
+{
+	"projectName": "foo",
+	"timestamp": "Jan 9, 2017 at 4:27pm",
+	"successRate": 0,
+	"environment": "default",
+	"tags": "",
+	"executionTime": 50,
+	"executionStatus": "fail",
+    "specResults": [
+        {
+            "specHeading": "Specification Heading",
+            "fileName": "/Users/apoorvam/Downloads/foo/specs/example.spec",
+			"tags": null,
+			"executionStatus": "fail",
+            "executionTime": 2,
+            "scenarios": [
+                {
+                    "heading": "Vowel counts in single word",
+					"tags": [
+						"single word"
+					],
+					"executionStatus": "pass",
+					"executionTime": 1,
+                    "contexts":  [
+						{
+							"itemType": "98",
+							"stepText": "Vowels in English language are \"aeiou\".",
+							"beforeStepHookFailure": null,
+							"afterStepHookFailure": null,
+							"result": {
+								"status": "pass",
+								"stackTrace": "",
+								"screenshot": "",
+								"errorMessage": "",
+								"executionTime": 0,
+								"skippedReason": "",
+								"messages": null,
+								"errorType": "assertion"
+							}
+						}
+					],
+                    "teardowns":  null,
+                    "items":  [
+						{
+							"itemType": "789",
+							"stepText": "Vowels in English language are \"aeiou\".",
+							"beforeStepHookFailure": null,
+							"afterStepHookFailure": null,
+							"result": {
+								"status": "pass",
+								"stackTrace": 234,
+								"screenshot": "",
+								"errorMessage": "",
+								"executionTime": 789,
+								"skippedReason": "",
+								"messages": null,
+								"errorType": "assertion"
+							}
+						},
+                        {
+							"itemType": "step",
+							"stepText": "Vowels in English language are \"aeiou\".",
+							"beforeStepHookFailure": null,
+							"afterStepHookFailure": null,
+							"result": {
+								"status": "pass",
+								"stackTrace": "",
+								"screenshot": "",
+								"errorMessage": "",
+								"executionTime": 0,
+								"skippedReason": "",
+								"messages": null,
+								"errorType": "assertion"
+							}
+						}
+					],
+					"beforeScenarioHookFailure": null,
+					"afterScenarioHookFailure": null,
+					"skipErrors": null,
+					"tableRowIndex": -1
+            }],
+            "isTableDriven": false,
+			"datatable": null,
+			"beforeSpecHookFailure": null,
+			"afterSpecHookFailure": null,
+			"passedScenarioCount": 0,
+			"failedScenarioCount": 1,
+			"skippedScenarioCount": 0
+        }
+    ],
+    "beforeSuiteHookFailure": {
+        "errorMessage": "90"
+    },
+	"afterSuiteHookFailure": null,
+	"passedSpecsCount": 0,
+	"failedSpecsCount": 1,
+	"skippedSpecsCount": 0,
+	"unhandledErrors": null
+}

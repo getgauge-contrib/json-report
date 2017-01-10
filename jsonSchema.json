@@ -1,0 +1,248 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Gauge JSON result schema",
+    "definitions": {
+        "result": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "stacktrace": {
+                    "type": "string"
+                },
+                "screenshot": {
+                    "type": "string"
+                },
+                "errorMessage": {
+                    "type": "string"
+                },
+                "executionTime": {
+                    "type": "integer"
+                },
+                "skippedReason": {
+                    "type": "string"
+                },
+                "messages": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "errorType": {
+                    "type": "string"
+                }
+            }
+        },
+        "hookFailure": {
+            "type": [
+                "object",
+                "null"
+            ],
+            "properties": {
+                "errorMessage": {
+                    "type": "string"
+                },
+                "screenshot": {
+                    "type": "string"
+                },
+                "stacktrace": {
+                    "type": "string"
+                }
+            }
+        },
+        "specItem": {
+            "type": "object",
+            "properties": {
+                "itemType": {
+                    "type": "string"
+                },
+                "stepText": {
+                    "type": "string"
+                },
+                "beforeStepHookFailure": {
+                    "$ref": "#/definitions/hookFailure"
+                },
+                "afterStepHookFailure": {
+                    "$ref": "#/definitions/hookFailure"
+                },
+                "result": {
+                    "type": "object",
+                    "$ref": "#/definitions/result"
+                }
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "specResults": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "specHeading": {
+                        "type": "string"
+                    },
+                    "fileName": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": [
+                            "array",
+                            "null"
+                        ]
+                    },
+                    "executionStatus": {
+                        "type": "string"
+                    },
+                    "executionTime": {
+                        "type": "integer"
+                    },
+                    "scenarios": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "heading": {
+                                    "type": "string"
+                                },
+                                "tags": {
+                                    "type": [
+                                        "array",
+                                        "null"
+                                    ]
+                                },
+                                "executionStatus": {
+                                    "type": "string"
+                                },
+                                "executionTime": {
+                                    "type": "integer"
+                                },
+                                "contexts": {
+                                    "type": [
+                                        "array",
+                                        "null"
+                                    ],
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/definitions/specItem"
+                                    }
+                                },
+                                "teardowns": {
+                                    "type": [
+                                        "array",
+                                        "null"
+                                    ],
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/definitions/specItem"
+                                    }
+                                },
+                                "items": {
+                                    "type": [
+                                        "array",
+                                        "null"
+                                    ],
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/definitions/specItem"
+                                    }
+                                },
+                                "beforeScenarioHookFailure": {
+                                    "$ref": "#/definitions/hookFailure"
+                                },
+                                "afterScenarioHookFailure": {
+                                    "$ref": "#/definitions/hookFailure"
+                                },
+                                "skipErrors": {
+                                    "type": [
+                                        "array",
+                                        "null"
+                                    ]
+                                },
+                                "tableRowIndex": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "isTableDriven": {
+                        "type": "boolean"
+                    },
+                    "datatable": {
+                        "type": [
+                            "object",
+                            "null"
+                        ]
+                    },
+                    "beforeSpecHookFailure": {
+                        "$ref": "#/definitions/hookFailure"
+                    },
+                    "afterSpecHookFailure": {
+                        "$ref": "#/definitions/hookFailure"
+                    },
+                    "passedScenarioCount": {
+                        "type": "integer"
+                    },
+                    "failedScenarioCount": {
+                        "type": "integer"
+                    },
+                    "skippedScenarioCount": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "beforeSuiteHookFailure": {
+            "$ref": "#/definitions/hookFailure"
+        },
+        "afterSuiteHookFailure": {
+            "$ref": "#/definitions/hookFailure"
+        },
+        "executionStatus": {
+            "type": "string"
+        },
+        "executionTime": {
+            "type": "integer"
+        },
+        "passedSpecsCount": {
+            "type": "integer"
+        },
+        "failedSpecsCount": {
+            "type": "integer"
+        },
+        "skippedSpecsCount": {
+            "type": "integer"
+        },
+        "unhandledErrors": {
+            "type": [
+                "array",
+                "null"
+            ]
+        },
+        "environment": {
+            "type": "string"
+        },
+        "tags": {
+            "type": "string"
+        },
+        "projectName": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "string"
+        },
+        "successRate": {
+            "type": "integer"
+        }
+    }
+}

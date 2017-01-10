@@ -54,9 +54,9 @@ type spec struct {
 	Datatable             *table       `json:"datatable"`
 	BeforeSpecHookFailure *hookFailure `json:"beforeSpecHookFailure"`
 	AfterSpecHookFailure  *hookFailure `json:"afterSpecHookFailure"`
-	PassedScenarioCount   int          `json:"PassedScenarioCount"`
-	FailedScenarioCount   int          `json:"FailedScenarioCount"`
-	SkippedScenarioCount  int          `json:"SkippedScenarioCount"`
+	PassedScenarioCount   int          `json:"passedScenarioCount"`
+	FailedScenarioCount   int          `json:"failedScenarioCount"`
+	SkippedScenarioCount  int          `json:"skippedScenarioCount"`
 }
 
 type scenario struct {
