@@ -11,19 +11,15 @@ type status string
 type errorType string
 
 const (
-	pass                    status    = "pass"
-	fail                    status    = "fail"
-	skip                    status    = "skip"
-	notExecuted             status    = "not executed"
-	tagKind                 tokenKind = "tag"
-	scenarioKind            tokenKind = "scenario"
-	tableDrivenScenarioKind tokenKind = "tableDrivenScenario"
-	commentKind             tokenKind = "comment"
-	stepKind                tokenKind = "step"
-	conceptKind             tokenKind = "concept"
-	tableKind               tokenKind = "table"
-	assertionErrorType      errorType = "assertion"
-	verificationErrorType   errorType = "verification"
+	pass                  status    = "pass"
+	fail                  status    = "fail"
+	skip                  status    = "skip"
+	notExecuted           status    = "not executed"
+	stepKind              tokenKind = "step"
+	conceptKind           tokenKind = "concept"
+	tableKind             tokenKind = "table"
+	assertionErrorType    errorType = "assertion"
+	verificationErrorType errorType = "verification"
 )
 
 type item interface {
@@ -31,62 +27,62 @@ type item interface {
 }
 
 type suiteResult struct {
-	Specs                  []*spec      `json:"specs"`
+	ProjectName            string       `json:"projectName"`
+	Timestamp              string       `json:"timestamp"`
+	SuccessRate            int          `json:"successRate"`
+	Environment            string       `json:"environment"`
+	Tags                   string       `json:"tags"`
+	ExecutionTime          int64        `json:"executionTime"`
+	ExecutionStatus        status       `json:"executionStatus"`
+	SpecResults            []*spec      `json:"specResults"`
 	BeforeSuiteHookFailure *hookFailure `json:"beforeSuiteHookFailure"`
 	AfterSuiteHookFailure  *hookFailure `json:"afterSuiteHookFailure"`
-	ExecutionStatus        status       `json:"executionStatus"`
-	ExecutionTime          int64        `json:"executionTime"`
 	PassedSpecsCount       int          `json:"passedSpecsCount"`
 	FailedSpecsCount       int          `json:"failedSpecsCount"`
 	SkippedSpecsCount      int          `json:"skippedSpecsCount"`
 	UnhandledErrors        []error      `json:"unhandledErrors"`
-	Environment            string       `json:"environment"`
-	Tags                   string       `json:"tags"`
-	ProjectName            string       `json:"projectName"`
-	Timestamp              string       `json:"timestamp"`
-	SuccessRate            int          `json:"successRate"`
 }
 
 type spec struct {
 	SpecHeading           string       `json:"specHeading"`
-	IsTableDriven         bool         `json:"isTableDriven"`
 	FileName              string       `json:"fileName"`
 	Tags                  []string     `json:"tags"`
-	Items                 []item       `json:"items"`
+	ExecutionTime         int64        `json:"executionTime"`
+	ExecutionStatus       status       `json:"executionStatus"`
+	Scenarios             []*scenario  `json:"scenarios"`
+	IsTableDriven         bool         `json:"isTableDriven"`
+	Datatable             *table       `json:"datatable"`
 	BeforeSpecHookFailure *hookFailure `json:"beforeSpecHookFailure"`
 	AfterSpecHookFailure  *hookFailure `json:"afterSpecHookFailure"`
-	ExecutionStatus       status       `json:"executionStatus"`
-	ExecutionTime         int64        `json:"executionTime"`
-	ScenarioFailedCount   int          `json:"scenarioFailedCount"`
-	ScenarioSkippedCount  int          `json:"scenarioSkippedCount"`
+	PassedScenarioCount   int          `json:"PassedScenarioCount"`
+	FailedScenarioCount   int          `json:"FailedScenarioCount"`
+	SkippedScenarioCount  int          `json:"SkippedScenarioCount"`
 }
 
 type scenario struct {
-	ItemType                  tokenKind    `json:"itemType"`
 	Heading                   string       `json:"heading"`
+	Tags                      []string     `json:"tags"`
+	ExecutionTime             int64        `json:"executionTime"`
+	ExecutionStatus           status       `json:"executionStatus"`
 	Contexts                  []item       `json:"contexts"`
 	Teardowns                 []item       `json:"teardowns"`
 	Items                     []item       `json:"items"`
-	ExecutionStatus           status       `json:"executionStatus"`
-	ExecutionTime             int64        `json:"executionTime"`
 	BeforeScenarioHookFailure *hookFailure `json:"beforeScenarioHookFailure"`
 	AfterScenarioHookFailure  *hookFailure `json:"afterScenarioHookFailure"`
-	Tags                      []string     `json:"tags"`
 	SkipErrors                []string     `json:"skipErrors"`
+	TableRowIndex             int          `json:"tableRowIndex"`
 }
 
-func (s *scenario) kind() tokenKind {
-	return scenarioKind
+type step struct {
+	ItemType              tokenKind    `json:"itemType"`
+	StepText              string       `json:"stepText"`
+	BeforeStepHookFailure *hookFailure `json:"beforeStepHookFailure"`
+	AfterStepHookFailure  *hookFailure `json:"afterStepHookFailure"`
+	Result                *result      `json:"result"`
 }
 
-type tableDrivenScenario struct {
-	ItemType      tokenKind `json:"itemType"`
-	Scenario      *scenario `json:"scenario"`
-	TableRowIndex int       `json:"tableRowIndex"`
-}
-
-func (t *tableDrivenScenario) kind() tokenKind {
-	return tableDrivenScenarioKind
+func (s *step) kind() tokenKind {
+	return stepKind
 }
 
 type result struct {
@@ -106,47 +102,15 @@ type hookFailure struct {
 	StackTrace string `json:"stackTrace"`
 }
 
-type step struct {
-	ItemType              tokenKind    `json:"itemType"`
-	StepText              string       `json:"StepText"`
-	BeforeStepHookFailure *hookFailure `json:"beforeStepHookFailure"`
-	AfterStepHookFailure  *hookFailure `json:"afterStepHookFailure"`
-	Result                *result      `json:"result"`
-}
-
-func (s *step) kind() tokenKind {
-	return stepKind
-}
-
 type concept struct {
-	ItemType        tokenKind `json:"itemType"`
-	ConceptStep     *step     `json:"conceptStep"`
-	Items           []item    `json:"items"`
-	ExecutionStatus string    `json:"executionStatus"`
-	ExecutionTime   int64     `json:"executionTime"`
-	Result          result    `json:"result"`
+	ItemType    tokenKind `json:"itemType"`
+	ConceptStep *step     `json:"conceptStep"`
+	Items       []item    `json:"items"`
+	Result      result    `json:"result"`
 }
 
 func (s *concept) kind() tokenKind {
 	return conceptKind
-}
-
-type comment struct {
-	ItemType tokenKind `json:"itemType"`
-	Text     string    `json:"text"`
-}
-
-func (c *comment) kind() tokenKind {
-	return commentKind
-}
-
-type tag struct {
-	ItemType tokenKind `json:"itemType"`
-	Tags     []string  `json:"tags"`
-}
-
-func (c *tag) kind() tokenKind {
-	return tagKind
 }
 
 type table struct {
@@ -182,7 +146,7 @@ func toSuiteResult(psr *gauge_messages.ProtoSuiteResult) *suiteResult {
 		suiteResult.ExecutionStatus = fail
 	}
 	for _, protoSpecRes := range psr.GetSpecResults() {
-		suiteResult.Specs = append(suiteResult.Specs, toSpec(protoSpecRes))
+		suiteResult.SpecResults = append(suiteResult.SpecResults, toSpec(protoSpecRes))
 	}
 	return suiteResult
 }
@@ -193,8 +157,9 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) *spec {
 		IsTableDriven:         psr.GetProtoSpec().GetIsTableDriven(),
 		FileName:              psr.GetProtoSpec().GetFileName(),
 		Tags:                  psr.GetProtoSpec().GetTags(),
-		ScenarioFailedCount:   int(psr.GetScenarioFailedCount()),
-		ScenarioSkippedCount:  int(psr.GetScenarioSkippedCount()),
+		FailedScenarioCount:   int(psr.GetScenarioFailedCount()),
+		SkippedScenarioCount:  int(psr.GetScenarioSkippedCount()),
+		PassedScenarioCount:   int(psr.GetScenarioCount() - psr.GetScenarioFailedCount() - psr.GetScenarioSkippedCount()),
 		ExecutionTime:         psr.GetExecutionTime(),
 		ExecutionStatus:       getStatus(psr.GetFailed(), psr.GetSkipped()),
 		BeforeSpecHookFailure: toHookFailure(psr.GetProtoSpec().GetPreHookFailure()),
@@ -203,19 +168,18 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) *spec {
 	for _, item := range psr.GetProtoSpec().GetItems() {
 		switch item.GetItemType() {
 		case gauge_messages.ProtoItem_Scenario:
-			spec.Items = append(spec.Items, toScenario(item.GetScenario()))
-		case gauge_messages.ProtoItem_Concept:
-			spec.Items = append(spec.Items, toConcept(item.GetConcept()))
+			spec.Scenarios = append(spec.Scenarios, toScenario(item.GetScenario(), -1))
 		case gauge_messages.ProtoItem_TableDrivenScenario:
-			spec.Items = append(spec.Items, toTableDrivenScenario(item.GetTableDrivenScenario().GetScenario(), int(item.GetTableDrivenScenario().GetTableRowIndex())))
+			spec.Scenarios = append(spec.Scenarios, toScenario(item.GetTableDrivenScenario().GetScenario(), int(item.GetTableDrivenScenario().GetTableRowIndex())))
+		case gauge_messages.ProtoItem_Table:
+			spec.Datatable = toTable(item.GetTable())
 		}
 	}
 	return spec
 }
 
-func toScenario(scn *gauge_messages.ProtoScenario) *scenario {
+func toScenario(scn *gauge_messages.ProtoScenario, tableRowIndex int) *scenario {
 	return &scenario{
-		ItemType:                  scenarioKind,
 		Heading:                   scn.GetScenarioHeading(),
 		ExecutionTime:             scn.GetExecutionTime(),
 		Tags:                      scn.GetTags(),
@@ -225,14 +189,7 @@ func toScenario(scn *gauge_messages.ProtoScenario) *scenario {
 		Teardowns:                 toItems(scn.GetTearDownSteps()),
 		BeforeScenarioHookFailure: toHookFailure(scn.GetPreHookFailure()),
 		AfterScenarioHookFailure:  toHookFailure(scn.GetPostHookFailure()),
-	}
-}
-
-func toTableDrivenScenario(scn *gauge_messages.ProtoScenario, tableRowIndex int) *tableDrivenScenario {
-	return &tableDrivenScenario{
-		ItemType:      tableDrivenScenarioKind,
-		Scenario:      toScenario(scn),
-		TableRowIndex: tableRowIndex,
+		TableRowIndex:             tableRowIndex,
 	}
 }
 
@@ -270,14 +227,6 @@ func toItems(protoItems []*gauge_messages.ProtoItem) []item {
 		}
 	}
 	return items
-}
-
-func toComment(protoComment *gauge_messages.ProtoComment) *comment {
-	return &comment{ItemType: commentKind, Text: protoComment.GetText()}
-}
-
-func toTag(protoTag *gauge_messages.ProtoTags) *tag {
-	return &tag{ItemType: tagKind, Tags: protoTag.GetTags()}
 }
 
 func toStep(protoStep *gauge_messages.ProtoStep) *step {
