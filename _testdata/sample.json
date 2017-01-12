@@ -10,7 +10,7 @@
         {
             "specHeading": "Specification Heading",
             "fileName": "/Users/apoorvam/Downloads/foo/specs/example.spec",
-            "tags": null,
+            "tags": [],
             "executionStatus": "fail",
             "executionTime": 2,
             "scenarios": [
@@ -34,12 +34,12 @@
                                 "errorMessage": "",
                                 "executionTime": 0,
                                 "skippedReason": "",
-                                "messages": null,
+                                "messages": [],
                                 "errorType": "assertion"
                             }
                         }
                     ],
-                    "teardowns": null,
+                    "teardowns": [],
                     "items": [
                         {
                             "itemType": "step",
@@ -53,7 +53,7 @@
                                 "errorMessage": "",
                                 "executionTime": 789,
                                 "skippedReason": "",
-                                "messages": null,
+                                "messages": [],
                                 "errorType": "assertion"
                             }
                         },
@@ -69,14 +69,14 @@
                                 "errorMessage": "",
                                 "executionTime": 0,
                                 "skippedReason": "",
-                                "messages": null,
+                                "messages": [],
                                 "errorType": "assertion"
                             }
                         }
                     ],
                     "beforeScenarioHookFailure": null,
                     "afterScenarioHookFailure": null,
-                    "skipErrors": null,
+                    "skipErrors": [],
                     "tableRowIndex": -1
                 }
             ],
@@ -93,6 +93,5 @@
     "afterSuiteHookFailure": null,
     "passedSpecsCount": 0,
     "failedSpecsCount": 1,
-    "skippedSpecsCount": 0,
-    "unhandledErrors": null
+    "skippedSpecsCount": 0
 }

@@ -34,13 +34,12 @@ type suiteResult struct {
 	Tags                   string       `json:"tags"`
 	ExecutionTime          int64        `json:"executionTime"`
 	ExecutionStatus        status       `json:"executionStatus"`
-	SpecResults            []*spec      `json:"specResults"`
+	SpecResults            []spec       `json:"specResults"`
 	BeforeSuiteHookFailure *hookFailure `json:"beforeSuiteHookFailure"`
 	AfterSuiteHookFailure  *hookFailure `json:"afterSuiteHookFailure"`
 	PassedSpecsCount       int          `json:"passedSpecsCount"`
 	FailedSpecsCount       int          `json:"failedSpecsCount"`
 	SkippedSpecsCount      int          `json:"skippedSpecsCount"`
-	UnhandledErrors        []error      `json:"unhandledErrors"`
 }
 
 type spec struct {
@@ -49,7 +48,7 @@ type spec struct {
 	Tags                  []string     `json:"tags"`
 	ExecutionTime         int64        `json:"executionTime"`
 	ExecutionStatus       status       `json:"executionStatus"`
-	Scenarios             []*scenario  `json:"scenarios"`
+	Scenarios             []scenario   `json:"scenarios"`
 	IsTableDriven         bool         `json:"isTableDriven"`
 	Datatable             *table       `json:"datatable"`
 	BeforeSpecHookFailure *hookFailure `json:"beforeSpecHookFailure"`
@@ -60,7 +59,7 @@ type spec struct {
 }
 
 type scenario struct {
-	Heading                   string       `json:"heading"`
+	Heading                   string       `json:"scenarioHeading"`
 	Tags                      []string     `json:"tags"`
 	ExecutionTime             int64        `json:"executionTime"`
 	ExecutionStatus           status       `json:"executionStatus"`
@@ -116,7 +115,7 @@ func (s *concept) kind() tokenKind {
 type table struct {
 	ItemType tokenKind `json:"itemType"`
 	Headers  []string  `json:"headers"`
-	Rows     []*row    `json:"rows"`
+	Rows     []row     `json:"rows"`
 }
 
 func (t *table) kind() tokenKind {
@@ -127,8 +126,8 @@ type row struct {
 	Cells []string `json:"cells"`
 }
 
-func toSuiteResult(psr *gauge_messages.ProtoSuiteResult) *suiteResult {
-	suiteResult := &suiteResult{
+func toSuiteResult(psr *gauge_messages.ProtoSuiteResult) suiteResult {
+	suiteResult := suiteResult{
 		ProjectName:            psr.GetProjectName(),
 		Environment:            psr.GetEnvironment(),
 		Tags:                   psr.GetTags(),
@@ -145,18 +144,19 @@ func toSuiteResult(psr *gauge_messages.ProtoSuiteResult) *suiteResult {
 	if psr.GetFailed() {
 		suiteResult.ExecutionStatus = fail
 	}
+	suiteResult.SpecResults = make([]spec, 0)
 	for _, protoSpecRes := range psr.GetSpecResults() {
 		suiteResult.SpecResults = append(suiteResult.SpecResults, toSpec(protoSpecRes))
 	}
 	return suiteResult
 }
 
-func toSpec(psr *gauge_messages.ProtoSpecResult) *spec {
-	spec := &spec{
+func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
+	spec := spec{
 		SpecHeading:           psr.GetProtoSpec().GetSpecHeading(),
 		IsTableDriven:         psr.GetProtoSpec().GetIsTableDriven(),
 		FileName:              psr.GetProtoSpec().GetFileName(),
-		Tags:                  psr.GetProtoSpec().GetTags(),
+		Tags:                  make([]string, 0),
 		FailedScenarioCount:   int(psr.GetScenarioFailedCount()),
 		SkippedScenarioCount:  int(psr.GetScenarioSkippedCount()),
 		PassedScenarioCount:   int(psr.GetScenarioCount() - psr.GetScenarioFailedCount() - psr.GetScenarioSkippedCount()),
@@ -165,6 +165,10 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) *spec {
 		BeforeSpecHookFailure: toHookFailure(psr.GetProtoSpec().GetPreHookFailure()),
 		AfterSpecHookFailure:  toHookFailure(psr.GetProtoSpec().GetPostHookFailure()),
 	}
+	if psr.GetProtoSpec().GetTags() != nil {
+		spec.Tags = psr.GetProtoSpec().GetTags()
+	}
+	spec.Scenarios = make([]scenario, 0)
 	for _, item := range psr.GetProtoSpec().GetItems() {
 		switch item.GetItemType() {
 		case gauge_messages.ProtoItem_Scenario:
@@ -178,19 +182,36 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) *spec {
 	return spec
 }
 
-func toScenario(scn *gauge_messages.ProtoScenario, tableRowIndex int) *scenario {
-	return &scenario{
-		Heading:                   scn.GetScenarioHeading(),
-		ExecutionTime:             scn.GetExecutionTime(),
-		Tags:                      scn.GetTags(),
-		ExecutionStatus:           getScenarioStatus(scn),
-		Contexts:                  toItems(scn.GetContexts()),
-		Items:                     toItems(scn.GetScenarioItems()),
-		Teardowns:                 toItems(scn.GetTearDownSteps()),
-		BeforeScenarioHookFailure: toHookFailure(scn.GetPreHookFailure()),
-		AfterScenarioHookFailure:  toHookFailure(scn.GetPostHookFailure()),
+func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int) scenario {
+	sce := scenario{
+		Heading:                   protoSce.GetScenarioHeading(),
+		ExecutionTime:             protoSce.GetExecutionTime(),
+		Tags:                      make([]string, 0),
+		ExecutionStatus:           getScenarioStatus(protoSce),
+		Contexts:                  make([]item, 0),
+		Items:                     make([]item, 0),
+		Teardowns:                 make([]item, 0),
+		BeforeScenarioHookFailure: toHookFailure(protoSce.GetPreHookFailure()),
+		AfterScenarioHookFailure:  toHookFailure(protoSce.GetPostHookFailure()),
 		TableRowIndex:             tableRowIndex,
+		SkipErrors:                make([]string, 0),
 	}
+	if protoSce.GetSkipErrors() != nil {
+		sce.SkipErrors = protoSce.GetSkipErrors()
+	}
+	if protoSce.GetTags() != nil {
+		sce.Tags = protoSce.GetTags()
+	}
+	if protoSce.GetContexts() != nil {
+		sce.Contexts = toItems(protoSce.GetContexts())
+	}
+	if protoSce.GetScenarioItems() != nil {
+		sce.Items = toItems(protoSce.GetScenarioItems())
+	}
+	if protoSce.GetTearDownSteps() != nil {
+		sce.Contexts = toItems(protoSce.GetTearDownSteps())
+	}
+	return sce
 }
 
 func getScenarioStatus(scn *gauge_messages.ProtoScenario) status {
@@ -207,13 +228,17 @@ func getScenarioStatus(scn *gauge_messages.ProtoScenario) status {
 }
 
 func toTable(protoTable *gauge_messages.ProtoTable) *table {
-	rows := make([]*row, len(protoTable.GetRows()))
+	rows := make([]row, len(protoTable.GetRows()))
 	for i, r := range protoTable.GetRows() {
-		rows[i] = &row{
+		rows[i] = row{
 			Cells: r.GetCells(),
 		}
 	}
-	return &table{ItemType: tableKind, Headers: protoTable.GetHeaders().GetCells(), Rows: rows}
+	headers := make([]string, 0)
+	if protoTable.GetHeaders().GetCells() != nil {
+		headers = protoTable.GetHeaders().GetCells()
+	}
+	return &table{ItemType: tableKind, Headers: headers, Rows: rows}
 }
 
 func toItems(protoItems []*gauge_messages.ProtoItem) []item {
@@ -237,11 +262,14 @@ func toStep(protoStep *gauge_messages.ProtoStep) *step {
 		StackTrace:    res.GetStackTrace(),
 		ErrorMessage:  res.GetErrorMessage(),
 		ExecutionTime: res.GetExecutionTime(),
-		Messages:      res.GetMessage(),
+		Messages:      make([]string, 0),
 		ErrorType:     getErrorType(res.GetErrorType()),
 	}
 	if protoStep.GetStepExecutionResult().GetSkipped() {
 		result.SkippedReason = protoStep.GetStepExecutionResult().GetSkippedReason()
+	}
+	if res.GetMessage() != nil {
+		result.Messages = res.GetMessage()
 	}
 	return &step{
 		ItemType:              stepKind,
