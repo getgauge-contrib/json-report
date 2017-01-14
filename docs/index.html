@@ -1,154 +1,411 @@
 <!DOCTYPE html>
-<!--
-  ~ Copyright 2013 Laurent Bovet <laurent.bovet@windmaster.ch>
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
 <html>
+
 <head>
+    <title>Docson Example</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/docson.css">
     <script src="lib/require.js"></script>
-    <script>
-        require(["docson", "lib/jquery"], function(docson) {
-            $(function () {
-                var embedded = window.parent !== window;
-                if (embedded) {
-                    $("body").addClass("embedded");
-                    $("doc").addClass("embedded");
-                    $("#form").hide();
-                }
-                $("#url").keypress(function (event) {
-                    if (event.keyCode == 13) {
-                        window.location.hash = $(this).val();
-                    }
-                });
-                $(window).on('hashchange', function () {
-                    update();
-                });
-                update();
-                var url;
-                function update() {
-                    if (window.location.hash) {
-                        $("#form").hide();  
-                        url = decodeURIComponent(window.location.hash.substring(1));
-                        var segments = url.split("$");
-                        if(segments[0]) {
-                            function render(schema) {
-                                try {
-                                    docson.doc("doc", schema, segments[1], segments[0].replace(/\/[^\/]*\/?$/, '/')).done(function() {
-                                        maybeExpand(segments);
-                                    });
-                                } catch (e) {
-                                    error("Could not parse schema: " + e.message + "<pre>" + $('<pre/>').text(schema).html() + "</pre>");
-                                }
-                            }
+</head>
 
-                            if(/\.ts$/.test(segments[0])) {
-                                require.config( { baseUrl: "../typson" } );
-                                require(["lib/typson-schema"], function(typson) {
-                                    typson.definitions(segments[0]).done(render);
-                                });
-                            } else {
-                                $.get(segments[0])
-                                        .done(render)
-                                        .fail(function (xhr, status, err) {
-                                            error("Could not load " + segments[0].replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
-                                                   return '&#'+i.charCodeAt(0)+';';
-                                            }) + ": " + status + " " + err);
-                                        });
+<body>
+    <div id="doc"></div>
+    <script charset="utf-8">
+        require.config({
+            baseUrl: ".."
+        });
+        require(["docson", "lib/jquery"], function(docson) {
+            $(function() {
+                var schema = {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "title": "Gauge JSON result schema",
+                    "type": "object",
+                    "properties": {
+                        "projectName": {
+                            "description": "Project Name",
+                            "type": "string"
+                        },
+                        "timestamp": {
+                            "description": "Timestamp of execution",
+                            "type": "string"
+                        },
+                        "successRate": {
+                            "description": "Success rate of execution",
+                            "type": "integer"
+                        },
+                        "environment": {
+                            "description": "Environment against which execution is done",
+                            "type": "string"
+                        },
+                        "tags": {
+                            "description": "Tags used to filter specifications during execution",
+                            "type": "string"
+                        },
+                        "executionTime": {
+                            "description": "Execution time for suite in milliseconds",
+                            "type": "integer"
+                        },
+                        "executionStatus": {
+                            "description": "Execution status of suite",
+                            "type": "string"
+                        },
+                        "specResults": {
+                            "description": "Execution result of specifications",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/specResult"
                             }
+                        },
+                        "beforeSuiteHookFailure": {
+                            "description": "Before suite hook failure information",
+                            "$ref": "#/definitions/hookFailure"
+                        },
+                        "afterSuiteHookFailure": {
+                            "description": "After suite hook failure information",
+                            "$ref": "#/definitions/hookFailure"
+                        },
+                        "passedSpecsCount": {
+                            "description": "Number of passed specifications",
+                            "type": "integer"
+                        },
+                        "failedSpecsCount": {
+                            "description": "Number of failed specifications",
+                            "type": "integer"
+                        },
+                        "skippedSpecsCount": {
+                            "description": "Number of skipped specifications",
+                            "type": "integer"
                         }
-                        function receiveMessage(event) {
-                            console.log(">", event)
-                            if(event.data.id && event.data.id == "docson") {
-                                if(event.data.type) {
-                                    try {
-                                        docson.doc("doc", event.data.definitions, event.data.type).done(function() {
-                                            maybeExpand(segments);
-                                        });
-                                    } catch (e) {
-                                        error("Could not parse schema: " + e.message + "<pre>" + $('<pre/>').text(event.data.definitions).html() + "</pre>");
+                    },
+                    "required": [
+                        "projectName",
+                        "timestamp",
+                        "successRate",
+                        "environment",
+                        "tags",
+                        "executionTime",
+                        "executionStatus",
+                        "specResults",
+                        "beforeSuiteHookFailure",
+                        "afterSuiteHookFailure",
+                        "passedSpecsCount",
+                        "failedSpecsCount",
+                        "skippedSpecsCount"
+                    ],
+                    "definitions": {
+                        "specResult": {
+                            "description": "Specification result",
+                            "type": "object",
+                            "properties": {
+                                "specHeading": {
+                                    "description": "Specification heading",
+                                    "type": "string"
+                                },
+                                "fileName": {
+                                    "description": "File name of specification",
+                                    "type": "string"
+                                },
+                                "tags": {
+                                    "description": "Specification tags",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "executionStatus": {
+                                    "description": "Execution status of specification",
+                                    "type": "string"
+                                },
+                                "executionTime": {
+                                    "description": "Execution time of specification in milliseconds",
+                                    "type": "integer"
+                                },
+                                "scenarios": {
+                                    "description": "Scenarios of a specification",
+                                    "type": "array",
+                                    "items": {
+                                        "description": "Scenario",
+                                        "type": "object",
+                                        "properties": {
+                                            "scenarioHeading": {
+                                                "description": "Scenario heading",
+                                                "type": "string"
+                                            },
+                                            "tags": {
+                                                "description": "Specification tags",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "executionStatus": {
+                                                "description": "Execution status of scenario",
+                                                "type": "string"
+                                            },
+                                            "executionTime": {
+                                                "description": "Execution time for scenario in milliseconds",
+                                                "type": "integer"
+                                            },
+                                            "contexts": {
+                                                "description": "Context items",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "$ref": "#/definitions/specItem"
+                                                }
+                                            },
+                                            "teardowns": {
+                                                "description": "Teardown items",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "$ref": "#/definitions/specItem"
+                                                }
+                                            },
+                                            "items": {
+                                                "description": "Scenario items",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "$ref": "#/definitions/specItem"
+                                                }
+                                            },
+                                            "beforeScenarioHookFailure": {
+                                                "description": "Before scenario hook failure",
+                                                "$ref": "#/definitions/hookFailure"
+                                            },
+                                            "afterScenarioHookFailure": {
+                                                "description": "After scenario hook failure",
+                                                "$ref": "#/definitions/hookFailure"
+                                            },
+                                            "skipErrors": {
+                                                "description": "Reasons if scenario is skipped",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "tableRowIndex": {
+                                                "description": "Table row index, if its a table driven execution",
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "required": [
+                                            "heading",
+                                            "tags",
+                                            "executionStatus",
+                                            "executionTime",
+                                            "contexts",
+                                            "teardowns",
+                                            "items",
+                                            "beforeScenarioHookFailure",
+                                            "afterScenarioHookFailure",
+                                            "skipErrors",
+                                            "tableRowIndex"
+                                        ]
+                                    }
+                                },
+                                "isTableDriven": {
+                                    "description": "True, if specification is a table driven specification",
+                                    "type": "boolean"
+                                },
+                                "datatable": {
+                                    "description": "Data table, if spec is table driven specification",
+                                    "$ref": "#/definitions/table"
+                                },
+                                "beforeSpecHookFailure": {
+                                    "description": "Before spec hook failure information",
+                                    "$ref": "#/definitions/hookFailure"
+                                },
+                                "afterSpecHookFailure": {
+                                    "description": "After spec hook failure information",
+                                    "$ref": "#/definitions/hookFailure"
+                                },
+                                "passedScenarioCount": {
+                                    "description": "Number of passed scenarios in specification",
+                                    "type": "integer"
+                                },
+                                "failedScenarioCount": {
+                                    "description": "Number of failed scenarios in specification",
+                                    "type": "integer"
+                                },
+                                "skippedScenarioCount": {
+                                    "description": "Number of skipped scenarios in specification",
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "specHeading",
+                                "fileName",
+                                "tags",
+                                "executionStatus",
+                                "executionTime",
+                                "scenarios",
+                                "isTableDriven",
+                                "datatable",
+                                "beforeSpecHookFailure",
+                                "afterSpecHookFailure",
+                                "passedScenarioCount",
+                                "failedScenarioCount",
+                                "skippedScenarioCount"
+                            ]
+                        },
+                        "result": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "description": "Execution status, possible values are pass, fail, skip, notExecuted",
+                                    "type": "string"
+                                },
+                                "stacktrace": {
+                                    "description": "Stacktrace of the failure. Empty if there is no failure",
+                                    "type": "string"
+                                },
+                                "screenshot": {
+                                    "description": "Screenshot taken at the time of failure. Empty if there is no failure",
+                                    "type": "string"
+                                },
+                                "errorMessage": {
+                                    "description": "Error message of the failure. Empty if there is no failure",
+                                    "type": "string"
+                                },
+                                "executionTime": {
+                                    "description": "Time taken for execution in milliseconds",
+                                    "type": "integer"
+                                },
+                                "skippedReason": {
+                                    "description": "Reason for which execution is skipped",
+                                    "type": "string"
+                                },
+                                "messages": {
+                                    "type": "array",
+                                    "description": "Custom messages",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "errorType": {
+                                    "type": "string",
+                                    "description": "Type of error. Possible values are assertion, verification"
+                                }
+                            },
+                            "required": [
+                                "status",
+                                "stackTrace",
+                                "screenshot",
+                                "errorMessage",
+                                "executionTime",
+                                "skippedReason",
+                                "messages",
+                                "errorType"
+                            ]
+                        },
+                        "hookFailure": {
+                            "type": [
+                                "object",
+                                "null"
+                            ],
+                            "properties": {
+                                "errorMessage": {
+                                    "description": "Error message of the failure. Empty if there is no failure",
+                                    "type": "string"
+                                },
+                                "screenshot": {
+                                    "description": "Screenshot taken at the time of failure. Empty if there is no failure",
+                                    "type": "string"
+                                },
+                                "stacktrace": {
+                                    "description": "Stacktrace of the failure. Empty if there is no failure",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "stackTrace",
+                                "screenshot",
+                                "errorMessage"
+                            ]
+                        },
+                        "specItem": {
+                            "type": "object",
+                            "properties": {
+                                "itemType": {
+                                    "description": "Type of specItem. Possible values are step, concept",
+                                    "type": "string"
+                                },
+                                "stepText": {
+                                    "description": "Step text as specified in spec file",
+                                    "type": "string"
+                                },
+                                "table": {
+                                    "description": "Param table",
+                                    "$ref": "#/definitions/table"
+                                },
+                                "beforeStepHookFailure": {
+                                    "description": "Before step hook failure information",
+                                    "$ref": "#/definitions/hookFailure"
+                                },
+                                "afterStepHookFailure": {
+                                    "description": "After step hook failure information",
+                                    "$ref": "#/definitions/hookFailure"
+                                },
+                                "result": {
+                                    "description": "Execution result",
+                                    "$ref": "#/definitions/result"
+                                }
+                            },
+                            "required": [
+                                "itemType",
+                                "stepText",
+                                "beforeStepHookFailure",
+                                "afterStepHookFailure",
+                                "result"
+                            ]
+                        },
+                        "table": {
+                            "description": "Table",
+                            "type": [
+                                "object",
+                                "null"
+                            ],
+                            "properties": {
+                                "headers": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "rows": {
+                                    "type": "array",
+                                    "items": {
+                                        "description": "Table row",
+                                        "type": "object",
+                                        "properties": {
+                                            "cells": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "cells"
+                                        ]
                                     }
                                 }
-                                if(event.data.action == "resize") {
-                                    $("#doc").get(0).resized();
-                                }
-                                if(event.data.font) {
-                                    console.log(event.data.font)
-                                    $("#doc").css("font-family", event.data.font);
-                                }
-                            }
+                            },
+                            "required": [
+                                "itemType",
+                                "headers",
+                                "rows"
+                            ]
                         }
-                        window.addEventListener("message", receiveMessage, false);
-                        var host = window.opener || window.parent;
-                        host.postMessage( { id: "docson", action: "ready", url: url}, "*");
-                    } else {
-                        $("#doc").empty();
-                        $("#form").show();
                     }
                 }
-
-                function maybeExpand(segments) {
-                    if(segments.indexOf("expand") >0 ) {
-                        $("#doc").find(".expand-button").html(" - ").attr("title", "Collapse all");
-                        $("#doc").find(".signature-type-expandable").addClass("signature-type-expanded");
-                        $("#doc").find(".box-container").show();
-                        $("#doc").find(".expand-button").attr("expanded", true);
-                    }
-                }
-
-                function error(message) {
-                    $("#form").show();
-                    $("#doc").html($("<div/>").addClass("error")
-                            .html(message));
-                }
-
-                var doc = $('#doc').get(0);
-                if(embedded) {
-                    doc.onresize =  function(width, height) {
-                        window.parent.postMessage( { id: "docson", action: "resized", url: url, width: width, height: height}, "*");
-                    }
-                }
+                docson.templateBaseUrl = "../templates";
+                docson.doc("doc", schema);
             });
         });
     </script>
-    <style>
-        body {
-            font-family: verdana, helvetica;
-        }
-
-        #form {
-            display: none;
-        }
-
-        #form input[type=text] {
-            border-radius: 6px;
-            -moz-border-radius: 6px;
-            -webkit-border-radius: 6px;
-        }
-
-        .embedded {
-            margin: 0px;
-            padding: 0px;
-        }
-    </style>
-</head>
-<body>
-<div id="form">
-    Please enter a schema URL:
-    <input type="text" id="url" size="60">
-</div>
-<div id="doc"></div>
 </body>
+
 </html>
