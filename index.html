@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Docson Example</title>
+    <title>Gauge JSON result schema</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/docson.css">
     <script src="lib/require.js"></script>
@@ -14,7 +14,7 @@
         require.config({
             baseUrl: ".."
         });
-        require(["docson", "lib/jquery"], function(docson) {
+        require(["lib/docson", "lib/jquery"], function(docson) {
             $(function() {
                 var schema = {
                     "$schema": "http://json-schema.org/draft-04/schema#",
