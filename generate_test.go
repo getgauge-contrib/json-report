@@ -11,7 +11,7 @@ import (
 
 func (s *MySuite) TestJSONReportWithSchema(c *C) {
 	sampleJSON, _ := filepath.Abs(filepath.Join("_testdata", "sample.json"))
-	JSONSchema, _ := filepath.Abs("jsonSchema.json")
+	JSONSchema, _ := filepath.Abs(filepath.Join("docs", "jsonSchema.json"))
 	schemaLoader := gojsonschema.NewReferenceLoader("file://" + JSONSchema)
 	documentLoader := gojsonschema.NewReferenceLoader("file://" + sampleJSON)
 	result, err := gojsonschema.Validate(schemaLoader, documentLoader)

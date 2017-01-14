@@ -1,0 +1,494 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'matic' ]
+2 info using npm@3.3.12
+3 info using node@v5.4.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readGlobalPackageData
+7 silly fetchPackageMetaData matic
+8 silly fetchNamedPackageData matic
+9 silly mapToRegistry name matic
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry uri https://registry.npmjs.org/matic
+13 verbose request uri https://registry.npmjs.org/matic
+14 verbose request no auth needed
+15 info attempt registry request try #1 at 7:34:25 AM
+16 verbose request id 8a7aa8d42faf03b6
+17 http request GET https://registry.npmjs.org/matic
+18 http 200 https://registry.npmjs.org/matic
+19 verbose headers { server: 'nginx/1.10.1',
+19 verbose headers   'content-type': 'application/json',
+19 verbose headers   'last-modified': 'Wed, 14 Dec 2016 12:29:01 GMT',
+19 verbose headers   etag: 'W/"58513b0d-75d1"',
+19 verbose headers   'content-encoding': 'gzip',
+19 verbose headers   'cache-control': 'max-age=300',
+19 verbose headers   'content-length': '5079',
+19 verbose headers   'accept-ranges': 'bytes',
+19 verbose headers   date: 'Wed, 11 Jan 2017 02:04:23 GMT',
+19 verbose headers   via: '1.1 varnish',
+19 verbose headers   age: '0',
+19 verbose headers   connection: 'keep-alive',
+19 verbose headers   'x-served-by': 'cache-sin6927-SIN',
+19 verbose headers   'x-cache': 'MISS',
+19 verbose headers   'x-cache-hits': '0',
+19 verbose headers   'x-timer': 'S1484100263.054883,VS0,VE215',
+19 verbose headers   vary: 'Accept-Encoding' }
+20 silly get cb [ 200,
+20 silly get   { server: 'nginx/1.10.1',
+20 silly get     'content-type': 'application/json',
+20 silly get     'last-modified': 'Wed, 14 Dec 2016 12:29:01 GMT',
+20 silly get     etag: 'W/"58513b0d-75d1"',
+20 silly get     'content-encoding': 'gzip',
+20 silly get     'cache-control': 'max-age=300',
+20 silly get     'content-length': '5079',
+20 silly get     'accept-ranges': 'bytes',
+20 silly get     date: 'Wed, 11 Jan 2017 02:04:23 GMT',
+20 silly get     via: '1.1 varnish',
+20 silly get     age: '0',
+20 silly get     connection: 'keep-alive',
+20 silly get     'x-served-by': 'cache-sin6927-SIN',
+20 silly get     'x-cache': 'MISS',
+20 silly get     'x-cache-hits': '0',
+20 silly get     'x-timer': 'S1484100263.054883,VS0,VE215',
+20 silly get     vary: 'Accept-Encoding' } ]
+21 verbose get saving matic to /Users/apoorvam/.npm/registry.npmjs.org/matic/.cache.json
+22 silly install normalizeTree
+23 silly loadCurrentTree Finishing
+24 silly loadIdealTree Starting
+25 silly install loadIdealTree
+26 silly cloneCurrentTree Starting
+27 silly install cloneCurrentTreeToIdealTree
+28 silly cloneCurrentTree Finishing
+29 silly loadShrinkwrap Starting
+30 silly install loadShrinkwrap
+31 silly loadShrinkwrap Finishing
+32 silly loadAllDepsIntoIdealTree Starting
+33 silly install loadAllDepsIntoIdealTree
+34 silly resolveWithNewModule matic@0.5.2 checking installable status
+35 silly cache add args [ 'matic', null ]
+36 verbose cache add spec matic
+37 silly cache add parsed spec Result {
+37 silly cache add   raw: 'matic',
+37 silly cache add   scope: null,
+37 silly cache add   name: 'matic',
+37 silly cache add   rawSpec: '',
+37 silly cache add   spec: '*',
+37 silly cache add   type: 'range' }
+38 silly addNamed matic@*
+39 verbose addNamed "*" is a valid semver range for matic
+40 silly addNameRange { name: 'matic', range: '*', hasData: false }
+41 silly mapToRegistry name matic
+42 silly mapToRegistry using default registry
+43 silly mapToRegistry registry https://registry.npmjs.org/
+44 silly mapToRegistry uri https://registry.npmjs.org/matic
+45 verbose addNameRange registry:https://registry.npmjs.org/matic not in flight; fetching
+46 verbose get https://registry.npmjs.org/matic not expired, no request
+47 silly addNameRange number 2 { name: 'matic', range: '*', hasData: true }
+48 silly addNameRange versions [ 'matic',
+48 silly addNameRange   [ '0.1.0',
+48 silly addNameRange     '0.1.1',
+48 silly addNameRange     '0.1.2',
+48 silly addNameRange     '0.1.3',
+48 silly addNameRange     '0.1.4',
+48 silly addNameRange     '0.2.0',
+48 silly addNameRange     '0.2.3',
+48 silly addNameRange     '0.2.4',
+48 silly addNameRange     '0.2.5',
+48 silly addNameRange     '0.2.6',
+48 silly addNameRange     '0.2.7',
+48 silly addNameRange     '0.3.0',
+48 silly addNameRange     '0.3.1',
+48 silly addNameRange     '0.3.2',
+48 silly addNameRange     '0.3.3',
+48 silly addNameRange     '0.3.4',
+48 silly addNameRange     '0.3.5',
+48 silly addNameRange     '0.3.6',
+48 silly addNameRange     '0.3.7',
+48 silly addNameRange     '0.4.0',
+48 silly addNameRange     '0.5.0',
+48 silly addNameRange     '0.5.1',
+48 silly addNameRange     '0.5.2' ] ]
+49 silly addNamed matic@0.5.2
+50 verbose addNamed "0.5.2" is a plain semver version for matic
+51 silly mapToRegistry name matic
+52 silly mapToRegistry using default registry
+53 silly mapToRegistry registry https://registry.npmjs.org/
+54 silly mapToRegistry uri https://registry.npmjs.org/matic
+55 verbose addRemoteTarball https://registry.npmjs.org/matic/-/matic-0.5.2.tgz not in flight; adding
+56 verbose addRemoteTarball [ 'https://registry.npmjs.org/matic/-/matic-0.5.2.tgz',
+56 verbose addRemoteTarball   'bffa4bd895260f30c040b8eb3d7eed3b61923464' ]
+57 info retry fetch attempt 1 at 7:34:27 AM
+58 info attempt registry request try #1 at 7:34:27 AM
+59 http fetch GET https://registry.npmjs.org/matic/-/matic-0.5.2.tgz
+60 http fetch 200 https://registry.npmjs.org/matic/-/matic-0.5.2.tgz
+61 silly fetchAndShaCheck shasum bffa4bd895260f30c040b8eb3d7eed3b61923464
+62 verbose addTmpTarball /var/folders/4p/z6083_js1wj99wlgvgh2vq0c0000gp/T/npm-92919-1a869a89/registry.npmjs.org/matic/-/matic-0.5.2.tgz not in flight; adding
+63 verbose addTmpTarball already have metadata; skipping unpack for matic@0.5.2
+64 silly cache afterAdd matic@0.5.2
+65 verbose afterAdd /Users/apoorvam/.npm/matic/0.5.2/package/package.json not in flight; writing
+66 verbose afterAdd /Users/apoorvam/.npm/matic/0.5.2/package/package.json written
+67 silly fetchNamedPackageData col
+68 silly mapToRegistry name col
+69 silly mapToRegistry using default registry
+70 silly mapToRegistry registry https://registry.npmjs.org/
+71 silly mapToRegistry uri https://registry.npmjs.org/col
+72 silly fetchNamedPackageData rightclick
+73 silly mapToRegistry name rightclick
+74 silly mapToRegistry using default registry
+75 silly mapToRegistry registry https://registry.npmjs.org/
+76 silly mapToRegistry uri https://registry.npmjs.org/rightclick
+77 silly fetchNamedPackageData underscore
+78 silly mapToRegistry name underscore
+79 silly mapToRegistry using default registry
+80 silly mapToRegistry registry https://registry.npmjs.org/
+81 silly mapToRegistry uri https://registry.npmjs.org/underscore
+82 verbose request uri https://registry.npmjs.org/col
+83 verbose request no auth needed
+84 info attempt registry request try #1 at 7:34:29 AM
+85 http request GET https://registry.npmjs.org/col
+86 verbose request uri https://registry.npmjs.org/rightclick
+87 verbose request no auth needed
+88 info attempt registry request try #1 at 7:34:29 AM
+89 http request GET https://registry.npmjs.org/rightclick
+90 verbose request uri https://registry.npmjs.org/underscore
+91 verbose request no auth needed
+92 info attempt registry request try #1 at 7:34:29 AM
+93 verbose etag "3UHVS3IVLGLG53HJTIZ2D6CSW"
+94 http request GET https://registry.npmjs.org/underscore
+95 http 200 https://registry.npmjs.org/underscore
+96 verbose headers { server: 'nginx/1.10.1',
+96 verbose headers   'content-type': 'application/json',
+96 verbose headers   'last-modified': 'Sun, 01 Jan 2017 19:03:49 GMT',
+96 verbose headers   etag: 'W/"58695295-ab80"',
+96 verbose headers   'content-encoding': 'gzip',
+96 verbose headers   'cache-control': 'max-age=300',
+96 verbose headers   'content-length': '7158',
+96 verbose headers   'accept-ranges': 'bytes',
+96 verbose headers   date: 'Wed, 11 Jan 2017 02:04:26 GMT',
+96 verbose headers   via: '1.1 varnish',
+96 verbose headers   age: '150',
+96 verbose headers   connection: 'keep-alive',
+96 verbose headers   'x-served-by': 'cache-sin6924-SIN',
+96 verbose headers   'x-cache': 'HIT',
+96 verbose headers   'x-cache-hits': '7',
+96 verbose headers   'x-timer': 'S1484100266.993996,VS0,VE0',
+96 verbose headers   vary: 'Accept-Encoding' }
+97 silly get cb [ 200,
+97 silly get   { server: 'nginx/1.10.1',
+97 silly get     'content-type': 'application/json',
+97 silly get     'last-modified': 'Sun, 01 Jan 2017 19:03:49 GMT',
+97 silly get     etag: 'W/"58695295-ab80"',
+97 silly get     'content-encoding': 'gzip',
+97 silly get     'cache-control': 'max-age=300',
+97 silly get     'content-length': '7158',
+97 silly get     'accept-ranges': 'bytes',
+97 silly get     date: 'Wed, 11 Jan 2017 02:04:26 GMT',
+97 silly get     via: '1.1 varnish',
+97 silly get     age: '150',
+97 silly get     connection: 'keep-alive',
+97 silly get     'x-served-by': 'cache-sin6924-SIN',
+97 silly get     'x-cache': 'HIT',
+97 silly get     'x-cache-hits': '7',
+97 silly get     'x-timer': 'S1484100266.993996,VS0,VE0',
+97 silly get     vary: 'Accept-Encoding' } ]
+98 verbose get saving underscore to /Users/apoorvam/.npm/registry.npmjs.org/underscore/.cache.json
+99 silly resolveWithNewModule underscore@1.6.0 checking installable status
+100 silly cache add args [ 'underscore@1.6.0', null ]
+101 verbose cache add spec underscore@1.6.0
+102 silly cache add parsed spec Result {
+102 silly cache add   raw: 'underscore@1.6.0',
+102 silly cache add   scope: null,
+102 silly cache add   name: 'underscore',
+102 silly cache add   rawSpec: '1.6.0',
+102 silly cache add   spec: '1.6.0',
+102 silly cache add   type: 'version' }
+103 silly addNamed underscore@1.6.0
+104 verbose addNamed "1.6.0" is a plain semver version for underscore
+105 silly mapToRegistry name underscore
+106 silly mapToRegistry using default registry
+107 silly mapToRegistry registry https://registry.npmjs.org/
+108 silly mapToRegistry uri https://registry.npmjs.org/underscore
+109 verbose addNameVersion registry:https://registry.npmjs.org/underscore not in flight; fetching
+110 verbose get https://registry.npmjs.org/underscore not expired, no request
+111 silly cache afterAdd underscore@1.6.0
+112 verbose afterAdd /Users/apoorvam/.npm/underscore/1.6.0/package/package.json not in flight; writing
+113 verbose afterAdd /Users/apoorvam/.npm/underscore/1.6.0/package/package.json written
+114 http 200 https://registry.npmjs.org/col
+115 verbose headers { server: 'nginx/1.10.1',
+115 verbose headers   'content-type': 'application/json',
+115 verbose headers   'last-modified': 'Wed, 16 Apr 2014 11:17:19 GMT',
+115 verbose headers   etag: 'W/"534e66bf-19b5"',
+115 verbose headers   'content-encoding': 'gzip',
+115 verbose headers   'cache-control': 'max-age=300',
+115 verbose headers   'content-length': '1342',
+115 verbose headers   'accept-ranges': 'bytes',
+115 verbose headers   date: 'Wed, 11 Jan 2017 02:04:27 GMT',
+115 verbose headers   via: '1.1 varnish',
+115 verbose headers   age: '0',
+115 verbose headers   connection: 'keep-alive',
+115 verbose headers   'x-served-by': 'cache-sin6920-SIN',
+115 verbose headers   'x-cache': 'MISS',
+115 verbose headers   'x-cache-hits': '0',
+115 verbose headers   'x-timer': 'S1484100266.974364,VS0,VE841',
+115 verbose headers   vary: 'Accept-Encoding' }
+116 silly get cb [ 200,
+116 silly get   { server: 'nginx/1.10.1',
+116 silly get     'content-type': 'application/json',
+116 silly get     'last-modified': 'Wed, 16 Apr 2014 11:17:19 GMT',
+116 silly get     etag: 'W/"534e66bf-19b5"',
+116 silly get     'content-encoding': 'gzip',
+116 silly get     'cache-control': 'max-age=300',
+116 silly get     'content-length': '1342',
+116 silly get     'accept-ranges': 'bytes',
+116 silly get     date: 'Wed, 11 Jan 2017 02:04:27 GMT',
+116 silly get     via: '1.1 varnish',
+116 silly get     age: '0',
+116 silly get     connection: 'keep-alive',
+116 silly get     'x-served-by': 'cache-sin6920-SIN',
+116 silly get     'x-cache': 'MISS',
+116 silly get     'x-cache-hits': '0',
+116 silly get     'x-timer': 'S1484100266.974364,VS0,VE841',
+116 silly get     vary: 'Accept-Encoding' } ]
+117 verbose get saving col to /Users/apoorvam/.npm/registry.npmjs.org/col/.cache.json
+118 http 200 https://registry.npmjs.org/rightclick
+119 verbose headers { server: 'nginx/1.10.1',
+119 verbose headers   'content-type': 'application/json',
+119 verbose headers   'last-modified': 'Fri, 12 Sep 2014 12:50:38 GMT',
+119 verbose headers   etag: 'W/"5412ec1e-55be"',
+119 verbose headers   'content-encoding': 'gzip',
+119 verbose headers   'cache-control': 'max-age=300',
+119 verbose headers   'content-length': '3248',
+119 verbose headers   'accept-ranges': 'bytes',
+119 verbose headers   date: 'Wed, 11 Jan 2017 02:04:27 GMT',
+119 verbose headers   via: '1.1 varnish',
+119 verbose headers   age: '0',
+119 verbose headers   connection: 'keep-alive',
+119 verbose headers   'x-served-by': 'cache-sin6923-SIN',
+119 verbose headers   'x-cache': 'MISS',
+119 verbose headers   'x-cache-hits': '0',
+119 verbose headers   'x-timer': 'S1484100266.968664,VS0,VE828',
+119 verbose headers   vary: 'Accept-Encoding' }
+120 silly get cb [ 200,
+120 silly get   { server: 'nginx/1.10.1',
+120 silly get     'content-type': 'application/json',
+120 silly get     'last-modified': 'Fri, 12 Sep 2014 12:50:38 GMT',
+120 silly get     etag: 'W/"5412ec1e-55be"',
+120 silly get     'content-encoding': 'gzip',
+120 silly get     'cache-control': 'max-age=300',
+120 silly get     'content-length': '3248',
+120 silly get     'accept-ranges': 'bytes',
+120 silly get     date: 'Wed, 11 Jan 2017 02:04:27 GMT',
+120 silly get     via: '1.1 varnish',
+120 silly get     age: '0',
+120 silly get     connection: 'keep-alive',
+120 silly get     'x-served-by': 'cache-sin6923-SIN',
+120 silly get     'x-cache': 'MISS',
+120 silly get     'x-cache-hits': '0',
+120 silly get     'x-timer': 'S1484100266.968664,VS0,VE828',
+120 silly get     vary: 'Accept-Encoding' } ]
+121 verbose get saving rightclick to /Users/apoorvam/.npm/registry.npmjs.org/rightclick/.cache.json
+122 silly resolveWithNewModule rightclick@0.7.1 checking installable status
+123 silly cache add args [ 'rightclick@0.7.1', null ]
+124 verbose cache add spec rightclick@0.7.1
+125 silly cache add parsed spec Result {
+125 silly cache add   raw: 'rightclick@0.7.1',
+125 silly cache add   scope: null,
+125 silly cache add   name: 'rightclick',
+125 silly cache add   rawSpec: '0.7.1',
+125 silly cache add   spec: '0.7.1',
+125 silly cache add   type: 'version' }
+126 silly addNamed rightclick@0.7.1
+127 verbose addNamed "0.7.1" is a plain semver version for rightclick
+128 silly mapToRegistry name rightclick
+129 silly mapToRegistry using default registry
+130 silly mapToRegistry registry https://registry.npmjs.org/
+131 silly mapToRegistry uri https://registry.npmjs.org/rightclick
+132 verbose addNameVersion registry:https://registry.npmjs.org/rightclick not in flight; fetching
+133 silly resolveWithNewModule col@0.1.0 checking installable status
+134 silly cache add args [ 'col@0.1.0', null ]
+135 verbose cache add spec col@0.1.0
+136 silly cache add parsed spec Result {
+136 silly cache add   raw: 'col@0.1.0',
+136 silly cache add   scope: null,
+136 silly cache add   name: 'col',
+136 silly cache add   rawSpec: '0.1.0',
+136 silly cache add   spec: '0.1.0',
+136 silly cache add   type: 'version' }
+137 silly addNamed col@0.1.0
+138 verbose addNamed "0.1.0" is a plain semver version for col
+139 silly mapToRegistry name col
+140 silly mapToRegistry using default registry
+141 silly mapToRegistry registry https://registry.npmjs.org/
+142 silly mapToRegistry uri https://registry.npmjs.org/col
+143 verbose addNameVersion registry:https://registry.npmjs.org/col not in flight; fetching
+144 verbose get https://registry.npmjs.org/col not expired, no request
+145 silly mapToRegistry name col
+146 silly mapToRegistry using default registry
+147 silly mapToRegistry registry https://registry.npmjs.org/
+148 silly mapToRegistry uri https://registry.npmjs.org/col
+149 verbose addRemoteTarball https://registry.npmjs.org/col/-/col-0.1.0.tgz not in flight; adding
+150 verbose addRemoteTarball [ 'https://registry.npmjs.org/col/-/col-0.1.0.tgz',
+150 verbose addRemoteTarball   '90aaab48941801226b2c1887ba8226faa8e27317' ]
+151 info retry fetch attempt 1 at 7:34:31 AM
+152 info attempt registry request try #1 at 7:34:31 AM
+153 http fetch GET https://registry.npmjs.org/col/-/col-0.1.0.tgz
+154 verbose get https://registry.npmjs.org/rightclick not expired, no request
+155 silly mapToRegistry name rightclick
+156 silly mapToRegistry using default registry
+157 silly mapToRegistry registry https://registry.npmjs.org/
+158 silly mapToRegistry uri https://registry.npmjs.org/rightclick
+159 verbose addRemoteTarball https://registry.npmjs.org/rightclick/-/rightclick-0.7.1.tgz not in flight; adding
+160 verbose addRemoteTarball [ 'https://registry.npmjs.org/rightclick/-/rightclick-0.7.1.tgz',
+160 verbose addRemoteTarball   '93d0b92cf31e80202a5bac3814c8f44fba70f786' ]
+161 info retry fetch attempt 1 at 7:34:31 AM
+162 info attempt registry request try #1 at 7:34:31 AM
+163 http fetch GET https://registry.npmjs.org/rightclick/-/rightclick-0.7.1.tgz
+164 http fetch 200 https://registry.npmjs.org/rightclick/-/rightclick-0.7.1.tgz
+165 silly fetchAndShaCheck shasum 93d0b92cf31e80202a5bac3814c8f44fba70f786
+166 verbose addTmpTarball /var/folders/4p/z6083_js1wj99wlgvgh2vq0c0000gp/T/npm-92919-1a869a89/registry.npmjs.org/rightclick/-/rightclick-0.7.1.tgz not in flight; adding
+167 verbose addTmpTarball already have metadata; skipping unpack for rightclick@0.7.1
+168 silly cache afterAdd rightclick@0.7.1
+169 verbose afterAdd /Users/apoorvam/.npm/rightclick/0.7.1/package/package.json not in flight; writing
+170 verbose afterAdd /Users/apoorvam/.npm/rightclick/0.7.1/package/package.json written
+171 http fetch 200 https://registry.npmjs.org/col/-/col-0.1.0.tgz
+172 silly fetchAndShaCheck shasum 90aaab48941801226b2c1887ba8226faa8e27317
+173 verbose addTmpTarball /var/folders/4p/z6083_js1wj99wlgvgh2vq0c0000gp/T/npm-92919-1a869a89/registry.npmjs.org/col/-/col-0.1.0.tgz not in flight; adding
+174 verbose addTmpTarball already have metadata; skipping unpack for col@0.1.0
+175 silly cache afterAdd col@0.1.0
+176 verbose afterAdd /Users/apoorvam/.npm/col/0.1.0/package/package.json not in flight; writing
+177 verbose afterAdd /Users/apoorvam/.npm/col/0.1.0/package/package.json written
+178 silly fetchNamedPackageData what-app
+179 silly mapToRegistry name what-app
+180 silly mapToRegistry using default registry
+181 silly mapToRegistry registry https://registry.npmjs.org/
+182 silly mapToRegistry uri https://registry.npmjs.org/what-app
+183 verbose request uri https://registry.npmjs.org/what-app
+184 verbose request no auth needed
+185 info attempt registry request try #1 at 7:34:33 AM
+186 http request GET https://registry.npmjs.org/what-app
+187 http 200 https://registry.npmjs.org/what-app
+188 verbose headers { server: 'nginx/1.10.1',
+188 verbose headers   'content-type': 'application/json',
+188 verbose headers   'last-modified': 'Mon, 14 Jul 2014 13:52:05 GMT',
+188 verbose headers   etag: 'W/"53c3e085-1a16"',
+188 verbose headers   'content-encoding': 'gzip',
+188 verbose headers   'cache-control': 'max-age=300',
+188 verbose headers   'content-length': '1121',
+188 verbose headers   'accept-ranges': 'bytes',
+188 verbose headers   date: 'Wed, 11 Jan 2017 02:04:30 GMT',
+188 verbose headers   via: '1.1 varnish',
+188 verbose headers   age: '0',
+188 verbose headers   connection: 'keep-alive',
+188 verbose headers   'x-served-by': 'cache-sin6923-SIN',
+188 verbose headers   'x-cache': 'MISS',
+188 verbose headers   'x-cache-hits': '0',
+188 verbose headers   'x-timer': 'S1484100270.420869,VS0,VE206',
+188 verbose headers   vary: 'Accept-Encoding' }
+189 silly get cb [ 200,
+189 silly get   { server: 'nginx/1.10.1',
+189 silly get     'content-type': 'application/json',
+189 silly get     'last-modified': 'Mon, 14 Jul 2014 13:52:05 GMT',
+189 silly get     etag: 'W/"53c3e085-1a16"',
+189 silly get     'content-encoding': 'gzip',
+189 silly get     'cache-control': 'max-age=300',
+189 silly get     'content-length': '1121',
+189 silly get     'accept-ranges': 'bytes',
+189 silly get     date: 'Wed, 11 Jan 2017 02:04:30 GMT',
+189 silly get     via: '1.1 varnish',
+189 silly get     age: '0',
+189 silly get     connection: 'keep-alive',
+189 silly get     'x-served-by': 'cache-sin6923-SIN',
+189 silly get     'x-cache': 'MISS',
+189 silly get     'x-cache-hits': '0',
+189 silly get     'x-timer': 'S1484100270.420869,VS0,VE206',
+189 silly get     vary: 'Accept-Encoding' } ]
+190 verbose get saving what-app to /Users/apoorvam/.npm/registry.npmjs.org/what-app/.cache.json
+191 silly resolveWithNewModule what-app@0.0.7 checking installable status
+192 silly cache add args [ 'what-app@*', null ]
+193 verbose cache add spec what-app@*
+194 silly cache add parsed spec Result {
+194 silly cache add   raw: 'what-app@*',
+194 silly cache add   scope: null,
+194 silly cache add   name: 'what-app',
+194 silly cache add   rawSpec: '*',
+194 silly cache add   spec: '*',
+194 silly cache add   type: 'range' }
+195 silly addNamed what-app@*
+196 verbose addNamed "*" is a valid semver range for what-app
+197 silly addNameRange { name: 'what-app', range: '*', hasData: false }
+198 silly mapToRegistry name what-app
+199 silly mapToRegistry using default registry
+200 silly mapToRegistry registry https://registry.npmjs.org/
+201 silly mapToRegistry uri https://registry.npmjs.org/what-app
+202 verbose addNameRange registry:https://registry.npmjs.org/what-app not in flight; fetching
+203 verbose get https://registry.npmjs.org/what-app not expired, no request
+204 silly addNameRange number 2 { name: 'what-app', range: '*', hasData: true }
+205 silly addNameRange versions [ 'what-app',
+205 silly addNameRange   [ '0.0.1', '0.0.2', '0.0.3', '0.0.4', '0.0.5', '0.0.6', '0.0.7' ] ]
+206 silly addNamed what-app@0.0.7
+207 verbose addNamed "0.0.7" is a plain semver version for what-app
+208 silly mapToRegistry name what-app
+209 silly mapToRegistry using default registry
+210 silly mapToRegistry registry https://registry.npmjs.org/
+211 silly mapToRegistry uri https://registry.npmjs.org/what-app
+212 verbose addRemoteTarball https://registry.npmjs.org/what-app/-/what-app-0.0.7.tgz not in flight; adding
+213 verbose addRemoteTarball [ 'https://registry.npmjs.org/what-app/-/what-app-0.0.7.tgz',
+213 verbose addRemoteTarball   'f32a7d4d53b6c765e50288767151c0c529fc76b3' ]
+214 info retry fetch attempt 1 at 7:34:34 AM
+215 info attempt registry request try #1 at 7:34:34 AM
+216 http fetch GET https://registry.npmjs.org/what-app/-/what-app-0.0.7.tgz
+217 http fetch 200 https://registry.npmjs.org/what-app/-/what-app-0.0.7.tgz
+218 silly fetchAndShaCheck shasum f32a7d4d53b6c765e50288767151c0c529fc76b3
+219 verbose addTmpTarball /var/folders/4p/z6083_js1wj99wlgvgh2vq0c0000gp/T/npm-92919-1a869a89/registry.npmjs.org/what-app/-/what-app-0.0.7.tgz not in flight; adding
+220 verbose addTmpTarball already have metadata; skipping unpack for what-app@0.0.7
+221 silly cache afterAdd what-app@0.0.7
+222 verbose afterAdd /Users/apoorvam/.npm/what-app/0.0.7/package/package.json not in flight; writing
+223 verbose afterAdd /Users/apoorvam/.npm/what-app/0.0.7/package/package.json written
+224 silly loadAllDepsIntoIdealTree Finishing
+225 silly idealTree:prePrune lib
+225 silly idealTree:prePrune └─┬ matic@0.5.2
+225 silly idealTree:prePrune   ├── col@0.1.0
+225 silly idealTree:prePrune   ├── rightclick@0.7.1
+225 silly idealTree:prePrune   ├── underscore@1.6.0
+225 silly idealTree:prePrune   └── what-app@0.0.7
+226 silly loadIdealTree Finishing
+227 silly currentTree lib
+228 silly idealTree lib
+228 silly idealTree └─┬ matic@0.5.2
+228 silly idealTree   ├── col@0.1.0
+228 silly idealTree   ├── rightclick@0.7.1
+228 silly idealTree   ├── underscore@1.6.0
+228 silly idealTree   └── what-app@0.0.7
+229 silly generateActionsToTake Starting
+230 silly install generateActionsToTake
+231 warn checkPermissions Missing write access to /usr/local/lib/node_modules
+232 silly rollbackFailedOptional Starting
+233 silly rollbackFailedOptional Finishing
+234 silly runTopLevelLifecycles Starting
+235 silly runTopLevelLifecycles Finishing
+236 silly install printInstalled
+237 verbose stack Error: EACCES: permission denied, access '/usr/local/lib/node_modules'
+237 verbose stack     at Error (native)
+238 verbose cwd /Users/apoorvam/gauge/go/src/github.com/getgauge/json-report
+239 error Darwin 16.0.0
+240 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "-g" "matic"
+241 error node v5.4.0
+242 error npm  v3.3.12
+243 error path /usr/local/lib/node_modules
+244 error code EACCES
+245 error errno -13
+246 error syscall access
+247 error Error: EACCES: permission denied, access '/usr/local/lib/node_modules'
+247 error     at Error (native)
+247 error  { [Error: EACCES: permission denied, access '/usr/local/lib/node_modules']
+247 error   errno: -13,
+247 error   code: 'EACCES',
+247 error   syscall: 'access',
+247 error   path: '/usr/local/lib/node_modules' }
+248 error Please try running this command again as root/Administrator.
+249 verbose exit [ -13, true ]

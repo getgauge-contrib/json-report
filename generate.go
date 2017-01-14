@@ -75,6 +75,7 @@ type scenario struct {
 type step struct {
 	ItemType              tokenKind    `json:"itemType"`
 	StepText              string       `json:"stepText"`
+	Table                 *table       `json:"table"`
 	BeforeStepHookFailure *hookFailure `json:"beforeStepHookFailure"`
 	AfterStepHookFailure  *hookFailure `json:"afterStepHookFailure"`
 	Result                *result      `json:"result"`
@@ -271,10 +272,19 @@ func toStep(protoStep *gauge_messages.ProtoStep) *step {
 	if res.GetMessage() != nil {
 		result.Messages = res.GetMessage()
 	}
+	var tableParam *table
+	if protoStep.GetFragments() != nil {
+		for _, f := range protoStep.GetFragments() {
+			if f.GetParameter().GetParameterType() == gauge_messages.Parameter_Table || f.GetParameter().GetParameterType() == gauge_messages.Parameter_Special_Table {
+				tableParam = toTable(f.GetParameter().GetTable())
+			}
+		}
+	}
 	return &step{
-		ItemType:              stepKind,
-		StepText:              protoStep.GetActualText(),
-		Result:                result,
+		ItemType: stepKind,
+		StepText: protoStep.GetActualText(),
+		Result:   result,
+		Table:    tableParam,
 		BeforeStepHookFailure: toHookFailure(protoStep.GetStepExecutionResult().GetPreHookFailure()),
 		AfterStepHookFailure:  toHookFailure(protoStep.GetStepExecutionResult().GetPostHookFailure()),
 	}

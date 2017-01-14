@@ -193,7 +193,7 @@
                 },
                 "datatable": {
                     "description": "Data table, if spec is table driven specification",
-                    "$ref": "#/definitions/datatable"
+                    "$ref": "#/definitions/table"
                 },
                 "beforeSpecHookFailure": {
                     "description": "Before spec hook failure information",
@@ -318,6 +318,10 @@
                     "description": "Step text as specified in spec file",
                     "type": "string"
                 },
+                "table": {
+                    "description": "Param table",
+                    "$ref": "#/definitions/table"
+                },
                 "beforeStepHookFailure": {
                     "description": "Before step hook failure information",
                     "$ref": "#/definitions/hookFailure"
@@ -339,8 +343,8 @@
                 "result"
             ]
         },
-        "datatable": {
-            "description": "Datatable",
+        "table": {
+            "description": "Table",
             "type": [
                 "object",
                 "null"
@@ -355,7 +359,7 @@
                 "rows": {
                     "type": "array",
                     "items": {
-                        "description": "Datatable row",
+                        "description": "Table row",
                         "type": "object",
                         "properties": {
                             "cells": {
