@@ -376,7 +376,6 @@
                 }
             },
             "required": [
-                "itemType",
                 "headers",
                 "rows"
             ]

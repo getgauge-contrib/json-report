@@ -17,7 +17,6 @@ const (
 	notExecuted           status    = "not executed"
 	stepKind              tokenKind = "step"
 	conceptKind           tokenKind = "concept"
-	tableKind             tokenKind = "table"
 	assertionErrorType    errorType = "assertion"
 	verificationErrorType errorType = "verification"
 )
@@ -114,13 +113,8 @@ func (s *concept) kind() tokenKind {
 }
 
 type table struct {
-	ItemType tokenKind `json:"itemType"`
-	Headers  []string  `json:"headers"`
-	Rows     []row     `json:"rows"`
-}
-
-func (t *table) kind() tokenKind {
-	return tableKind
+	Headers []string `json:"headers"`
+	Rows    []row    `json:"rows"`
 }
 
 type row struct {
@@ -239,7 +233,7 @@ func toTable(protoTable *gauge_messages.ProtoTable) *table {
 	if protoTable.GetHeaders().GetCells() != nil {
 		headers = protoTable.GetHeaders().GetCells()
 	}
-	return &table{ItemType: tableKind, Headers: headers, Rows: rows}
+	return &table{Headers: headers, Rows: rows}
 }
 
 func toItems(protoItems []*gauge_messages.ProtoItem) []item {
