@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/getgauge/json-report",
+	"ImportPath": "github.com/apoorvam/json-report",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v75",
 	"Deps": [

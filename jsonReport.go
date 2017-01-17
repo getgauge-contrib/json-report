@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/apoorvam/json-report/gauge_messages"
 	"github.com/getgauge/common"
-	"github.com/getgauge/json-report/gauge_messages"
 )
 
 const (

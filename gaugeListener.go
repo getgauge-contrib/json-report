@@ -7,7 +7,7 @@ import (
 	"net"
 	"os"
 
-	"github.com/getgauge/json-report/gauge_messages"
+	"github.com/apoorvam/json-report/gauge_messages"
 	"github.com/golang/protobuf/proto"
 )
 

@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/base64"
 
-	"github.com/getgauge/json-report/gauge_messages"
+	"github.com/apoorvam/json-report/gauge_messages"
 )
 
 type tokenKind string
