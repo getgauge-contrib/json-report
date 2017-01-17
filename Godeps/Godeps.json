@@ -1,0 +1,35 @@
+{
+	"ImportPath": "github.com/getgauge/json-report",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v75",
+	"Deps": [
+		{
+			"ImportPath": "github.com/dmotylev/goproperties",
+			"Rev": "7cbffbaada472bc302cbaca51c1d5ed2682eb509"
+		},
+		{
+			"ImportPath": "github.com/getgauge/common",
+			"Rev": "fce5f398028ffba388c578569c0ba4be1170b0b1"
+		},
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "0c1f6d65b5a189c2250d10e71a5506f06f9fa0a0"
+		},
+		{
+			"ImportPath": "github.com/xeipuuv/gojsonpointer",
+			"Rev": "e0fe6f68307607d540ed8eac07a342c33fa1b54a"
+		},
+		{
+			"ImportPath": "github.com/xeipuuv/gojsonreference",
+			"Rev": "e02fc20de94c78484cd5ffb007f8af96be030a45"
+		},
+		{
+			"ImportPath": "github.com/xeipuuv/gojsonschema",
+			"Rev": "f06f290571ce81ab347174c6f7ad2e1865af41a7"
+		},
+		{
+			"ImportPath": "gopkg.in/check.v1",
+			"Rev": "64131543e7896d5bcc6bd5a76287eb75ea96c673"
+		}
+	]
+}
