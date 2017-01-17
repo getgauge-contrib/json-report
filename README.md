@@ -2,15 +2,48 @@ json-report
 ===========
 [![Build Status](https://app.snap-ci.com/apoorvam/json-report/branch/master/build_image)](https://app.snap-ci.com/apoorvam/json-report/branch/master)
 
-JSON reporting for [Gauge](http://getgauge.io)
+JSON reporting plugin for [Gauge](http://getgauge.io) as per [JSON Schema](https://apoorvam.github.io/json-report/) 
 
 Install through Gauge
 ---------------------
+
+### Install through Gauge 
+
+```
+gauge --install json-report
+```
+Installing specific version:
+
+```
+gauge --install json-report --plugin-version 0.1.0
+```
 
 ### Offline installation
 * Download the plugin from [Releases](https://github.com/apoorvam/json-report/releases)
 ```
 gauge --install json-report --file <path_to_plugin_zip_file>
+```
+
+### Usage
+
+Add this plugin to your Gauge project by registering it in `manifest.json` file. You can also do this by:
+
+```
+gauge --add-plugin json-report
+```
+
+By default, reports are generated in `reports/json-report` directory of your Gauge project. You can set a custom location by setting the below mentioned property in `default.properties` file of `env/default` directory.
+
+```
+#The path to the gauge reports directory. Should be either relative to the project directory or an absolute path
+gauge_reports_dir = reports
+```
+
+You can also choose to override the reports after each execution or retain all of them as follows.
+
+```
+#Set as false if gauge reports should not be overwritten on each execution. A new time-stamped directory will be created on each execution.
+overwrite_reports = true
 ```
 
 Build from Source
