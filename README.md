@@ -4,8 +4,8 @@ json-report
 
 JSON reporting plugin for [Gauge](http://getgauge.io) as per [JSON Schema](https://apoorvam.github.io/json-report/) 
 
-Install through Gauge
----------------------
+Installation
+------------
 
 ### Install through Gauge 
 
