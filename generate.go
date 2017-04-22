@@ -204,7 +204,7 @@ func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int) scena
 		sce.Items = toItems(protoSce.GetScenarioItems())
 	}
 	if protoSce.GetTearDownSteps() != nil {
-		sce.Contexts = toItems(protoSce.GetTearDownSteps())
+		sce.Teardowns = toItems(protoSce.GetTearDownSteps())
 	}
 	return sce
 }
