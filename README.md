@@ -1,6 +1,5 @@
 json-report
 ===========
-[![Build Status](https://app.snap-ci.com/apoorvam/json-report/branch/master/build_image)](https://app.snap-ci.com/apoorvam/json-report/branch/master)
 
 JSON reporting plugin for [Gauge](http://getgauge.io) as per [JSON Schema](https://apoorvam.github.io/json-report/) 
 
