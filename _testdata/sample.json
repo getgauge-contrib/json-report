@@ -93,5 +93,8 @@
     "afterSuiteHookFailure": null,
     "passedSpecsCount": 0,
     "failedSpecsCount": 1,
-    "skippedSpecsCount": 0
+    "skippedSpecsCount": 0,
+    "passedScenariosCount": 0,
+    "failedScenariosCount": 1,
+    "skippedScenariosCount": 0
 }

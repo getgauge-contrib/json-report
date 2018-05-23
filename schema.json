@@ -57,6 +57,18 @@
         "skippedSpecsCount": {
             "description": "Number of skipped specifications",
             "type": "integer"
+        },
+        "passedScenariosCount": {
+            "description": "Number of passed scenarios in suite",
+            "type": "integer"
+        },
+        "failedScenariosCount": {
+            "description": "Number of failed scenarios in suite",
+            "type": "integer"
+        },
+        "skippedScenariosCount": {
+            "description": "Number of skipped scenarios in suite",
+            "type": "integer"
         }
     },
     "required": [
@@ -72,7 +84,10 @@
         "afterSuiteHookFailure",
         "passedSpecsCount",
         "failedSpecsCount",
-        "skippedSpecsCount"
+        "skippedSpecsCount",
+        "passedScenariosCount",
+        "failedScenariosCount",
+        "skippedScenariosCount"
     ],
     "definitions": {
         "specResult": {

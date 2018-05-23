@@ -39,6 +39,9 @@ type suiteResult struct {
 	PassedSpecsCount       int          `json:"passedSpecsCount"`
 	FailedSpecsCount       int          `json:"failedSpecsCount"`
 	SkippedSpecsCount      int          `json:"skippedSpecsCount"`
+	PassedScenariosCount	int         `json:"passedScenariosCount"`
+	FailedScenariosCount       int      `json:"failedScenariosCount"`
+	SkippedScenariosCount      int      `json:"skippedScenariosCount"`
 }
 
 type spec struct {
@@ -141,7 +144,11 @@ func toSuiteResult(psr *gauge_messages.ProtoSuiteResult) suiteResult {
 	}
 	suiteResult.SpecResults = make([]spec, 0)
 	for _, protoSpecRes := range psr.GetSpecResults() {
-		suiteResult.SpecResults = append(suiteResult.SpecResults, toSpec(protoSpecRes))
+		spec := toSpec(protoSpecRes)
+		suiteResult.SpecResults = append(suiteResult.SpecResults, spec)
+		suiteResult.PassedScenariosCount += spec.PassedScenarioCount
+		suiteResult.FailedScenariosCount += spec.FailedScenarioCount
+		suiteResult.SkippedScenariosCount += spec.SkippedScenarioCount
 	}
 	return suiteResult
 }
