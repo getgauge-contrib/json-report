@@ -84,6 +84,7 @@ type step struct {
 	ItemType              tokenKind    `json:"itemType"`
 	StepText              string       `json:"stepText"`
 	Parameters            []Parameter  `json:"parameters"`
+	Table                 *table       `json:"table"`
 	BeforeStepHookFailure *hookFailure `json:"beforeStepHookFailure"`
 	AfterStepHookFailure  *hookFailure `json:"afterStepHookFailure"`
 	Result                *result      `json:"result"`
@@ -305,10 +306,12 @@ func toStep(protoStep *gauge_messages.ProtoStep) *step {
 			switch p.GetParameterType() {
 			case gauge_messages.Parameter_Table:
 				table := toTable(p.GetTable())
+				step.Table = table
 				params = append(params, Parameter{ParameterType: tableParameter, Name: p.GetName(), Table: table})
 				break
 			case gauge_messages.Parameter_Special_Table:
 				table := toTable(p.GetTable())
+				step.Table = table
 				params = append(params, Parameter{ParameterType: specialTableParameter, Name: p.GetName(), Table: table})
 				break
 			case gauge_messages.Parameter_Dynamic:

@@ -1,17 +1,17 @@
 {
     "projectName": "sample",
-    "timestamp": "Mar 5, 2019 at 2:28pm",
+    "timestamp": "Mar 5, 2019 at 6:27pm",
     "successRate": 100,
     "environment": "default",
     "tags": "",
-    "executionTime": 359,
+    "executionTime": 381,
     "executionStatus": "pass",
     "specResults": [
         {
             "specHeading": "Specification Heading",
             "fileName": "/Users/apoorva/Projects/gopath/src/github.com/apoorvam/sample/specs/example.spec",
             "tags": [],
-            "executionTime": 63,
+            "executionTime": 59,
             "executionStatus": "pass",
             "scenarios": [
                 {
@@ -19,7 +19,7 @@
                     "tags": [
                         "single word"
                     ],
-                    "executionTime": 63,
+                    "executionTime": 58,
                     "executionStatus": "pass",
                     "contexts": [
                         {
@@ -33,6 +33,7 @@
                                     "table": null
                                 }
                             ],
+                            "table": null,
                             "beforeStepHookFailure": null,
                             "afterStepHookFailure": null,
                             "result": {
@@ -40,7 +41,7 @@
                                 "stackTrace": "",
                                 "screenshot": "",
                                 "errorMessage": "",
-                                "executionTime": 1,
+                                "executionTime": 0,
                                 "skippedReason": "",
                                 "messages": [],
                                 "errorType": "assertion"
@@ -66,6 +67,7 @@
                                     "table": null
                                 }
                             ],
+                            "table": null,
                             "beforeStepHookFailure": null,
                             "afterStepHookFailure": null,
                             "result": {
@@ -73,7 +75,7 @@
                                 "stackTrace": "",
                                 "screenshot": "",
                                 "errorMessage": "",
-                                "executionTime": 62,
+                                "executionTime": 58,
                                 "skippedReason": "",
                                 "messages": [],
                                 "errorType": "assertion"
@@ -88,7 +90,7 @@
                 {
                     "scenarioHeading": "Vowel counts in multiple word",
                     "tags": [],
-                    "executionTime": 0,
+                    "executionTime": 1,
                     "executionStatus": "pass",
                     "contexts": [
                         {
@@ -102,6 +104,7 @@
                                     "table": null
                                 }
                             ],
+                            "table": null,
                             "beforeStepHookFailure": null,
                             "afterStepHookFailure": null,
                             "result": {
@@ -109,7 +112,7 @@
                                 "stackTrace": "",
                                 "screenshot": "",
                                 "errorMessage": "",
-                                "executionTime": 0,
+                                "executionTime": 1,
                                 "skippedReason": "",
                                 "messages": [],
                                 "errorType": "assertion"
@@ -166,6 +169,44 @@
                                     }
                                 }
                             ],
+                            "table": {
+                                "headers": [
+                                    "Word",
+                                    "Vowel Count"
+                                ],
+                                "rows": [
+                                    {
+                                        "cells": [
+                                            "Gauge",
+                                            "3"
+                                        ]
+                                    },
+                                    {
+                                        "cells": [
+                                            "Mingle",
+                                            "2"
+                                        ]
+                                    },
+                                    {
+                                        "cells": [
+                                            "Snap",
+                                            "1"
+                                        ]
+                                    },
+                                    {
+                                        "cells": [
+                                            "GoCD",
+                                            "1"
+                                        ]
+                                    },
+                                    {
+                                        "cells": [
+                                            "Rhythm",
+                                            "0"
+                                        ]
+                                    }
+                                ]
+                            },
                             "beforeStepHookFailure": null,
                             "afterStepHookFailure": null,
                             "result": {
