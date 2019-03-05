@@ -188,7 +188,7 @@
                             }
                         },
                         "required": [
-                            "heading",
+                            "scenarioHeading",
                             "tags",
                             "executionStatus",
                             "executionTime",
@@ -333,9 +333,13 @@
                     "description": "Step text as specified in spec file",
                     "type": "string"
                 },
-                "table": {
-                    "description": "Param table",
-                    "$ref": "#/definitions/table"
+                "parameters": {
+                    "description": "Step parameters",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/parameter"
+                    }
                 },
                 "beforeStepHookFailure": {
                     "description": "Before step hook failure information",
@@ -355,7 +359,8 @@
                 "stepText",
                 "beforeStepHookFailure",
                 "afterStepHookFailure",
-                "result"
+                "result",
+                "parameters"
             ]
         },
         "table": {
@@ -393,6 +398,30 @@
             "required": [
                 "headers",
                 "rows"
+            ]
+        },
+        "parameter": {
+            "type": "object",
+            "properties": {
+                "parameterType": {
+                    "description": "Type of parameter. Possible values are static, dynamic, table, special_table, special_string",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name of parameter. Used as key to lookup the value. Empty in case of static parameter type.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "Value of parameter. Valid in case of parameterType being static, dynamic, special_string",
+                    "type": "string"
+                },
+                "table": {
+                    "description": "Table parameter. Valid in case of parameterType being table and special_table",
+                    "$ref": "#/definitions/table"
+                }
+            },
+            "required": [
+                "parameterType"
             ]
         }
     }
