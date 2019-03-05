@@ -1,7 +1,7 @@
 {
 	"ImportPath": "github.com/apoorvam/json-report",
-	"GoVersion": "go1.7",
-	"GodepVersion": "v75",
+	"GoVersion": "go1.11",
+	"GodepVersion": "v80",
 	"Deps": [
 		{
 			"ImportPath": "github.com/dmotylev/goproperties",
