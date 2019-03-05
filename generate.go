@@ -9,16 +9,22 @@ import (
 type tokenKind string
 type status string
 type errorType string
+type parameterType string
 
 const (
-	pass                  status    = "pass"
-	fail                  status    = "fail"
-	skip                  status    = "skip"
-	notExecuted           status    = "not executed"
-	stepKind              tokenKind = "step"
-	conceptKind           tokenKind = "concept"
-	assertionErrorType    errorType = "assertion"
-	verificationErrorType errorType = "verification"
+	pass                   status        = "pass"
+	fail                   status        = "fail"
+	skip                   status        = "skip"
+	notExecuted            status        = "not executed"
+	stepKind               tokenKind     = "step"
+	conceptKind            tokenKind     = "concept"
+	assertionErrorType     errorType     = "assertion"
+	verificationErrorType  errorType     = "verification"
+	staticParameter        parameterType = "static"
+	dynamicParameter       parameterType = "dynamic"
+	specialStringParameter parameterType = "special_string"
+	specialTableParameter  parameterType = "special_table"
+	tableParameter         parameterType = "table"
 )
 
 type item interface {
@@ -39,9 +45,9 @@ type suiteResult struct {
 	PassedSpecsCount       int          `json:"passedSpecsCount"`
 	FailedSpecsCount       int          `json:"failedSpecsCount"`
 	SkippedSpecsCount      int          `json:"skippedSpecsCount"`
-	PassedScenariosCount	int         `json:"passedScenariosCount"`
-	FailedScenariosCount       int      `json:"failedScenariosCount"`
-	SkippedScenariosCount      int      `json:"skippedScenariosCount"`
+	PassedScenariosCount   int          `json:"passedScenariosCount"`
+	FailedScenariosCount   int          `json:"failedScenariosCount"`
+	SkippedScenariosCount  int          `json:"skippedScenariosCount"`
 }
 
 type spec struct {
@@ -77,7 +83,7 @@ type scenario struct {
 type step struct {
 	ItemType              tokenKind    `json:"itemType"`
 	StepText              string       `json:"stepText"`
-	Table                 *table       `json:"table"`
+	Parameters            []Parameter  `json:"parameters"`
 	BeforeStepHookFailure *hookFailure `json:"beforeStepHookFailure"`
 	AfterStepHookFailure  *hookFailure `json:"afterStepHookFailure"`
 	Result                *result      `json:"result"`
@@ -85,6 +91,13 @@ type step struct {
 
 func (s *step) kind() tokenKind {
 	return stepKind
+}
+
+type Parameter struct {
+	ParameterType parameterType `json:"parameterType"`
+	Name          string        `json:"name"`
+	Value         string        `json:"value"`
+	Table         *table        `json:"table"`
 }
 
 type result struct {
@@ -273,22 +286,45 @@ func toStep(protoStep *gauge_messages.ProtoStep) *step {
 	if res.GetMessage() != nil {
 		result.Messages = res.GetMessage()
 	}
-	var tableParam *table
-	if protoStep.GetFragments() != nil {
-		for _, f := range protoStep.GetFragments() {
-			if f.GetParameter().GetParameterType() == gauge_messages.Parameter_Table || f.GetParameter().GetParameterType() == gauge_messages.Parameter_Special_Table {
-				tableParam = toTable(f.GetParameter().GetTable())
-			}
-		}
-	}
-	return &step{
-		ItemType: stepKind,
-		StepText: protoStep.GetActualText(),
-		Result:   result,
-		Table:    tableParam,
+	step := &step{
+		ItemType:              stepKind,
+		StepText:              protoStep.GetActualText(),
+		Result:                result,
 		BeforeStepHookFailure: toHookFailure(protoStep.GetStepExecutionResult().GetPreHookFailure()),
 		AfterStepHookFailure:  toHookFailure(protoStep.GetStepExecutionResult().GetPostHookFailure()),
 	}
+
+	params := make([]Parameter, 0)
+
+	if protoStep.GetFragments() != nil {
+		for _, f := range protoStep.GetFragments() {
+			if f.GetFragmentType() != gauge_messages.Fragment_Parameter {
+				continue
+			}
+			p := f.GetParameter()
+			switch p.GetParameterType() {
+			case gauge_messages.Parameter_Table:
+				table := toTable(p.GetTable())
+				params = append(params, Parameter{ParameterType: tableParameter, Name: p.GetName(), Table: table})
+				break
+			case gauge_messages.Parameter_Special_Table:
+				table := toTable(p.GetTable())
+				params = append(params, Parameter{ParameterType: specialTableParameter, Name: p.GetName(), Table: table})
+				break
+			case gauge_messages.Parameter_Dynamic:
+				params = append(params, Parameter{ParameterType: dynamicParameter, Name: p.GetName(), Value: p.GetValue()})
+				break
+			case gauge_messages.Parameter_Special_String:
+				params = append(params, Parameter{ParameterType: specialStringParameter, Name: p.GetName(), Value: p.GetValue()})
+				break
+			default:
+				params = append(params, Parameter{ParameterType: staticParameter, Name: p.GetName(), Value: p.GetValue()})
+				break
+			}
+		}
+	}
+	step.Parameters = params
+	return step
 }
 
 func toConcept(protoConcept *gauge_messages.ProtoConcept) *concept {
