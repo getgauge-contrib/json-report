@@ -1,5 +1,6 @@
 json-report
 ===========
+[![Build Status](https://travis-ci.org/apoorvam/json-report.svg?branch=master)](https://travis-ci.org/apoorvam/json-report)
 
 JSON reporting plugin for [Gauge](http://getgauge.io) as per [JSON Schema](https://apoorvam.github.io/json-report/) 
 
