@@ -12,9 +12,9 @@ type errorType string
 type parameterType string
 
 const (
-	pass                   status        = "pass"
-	fail                   status        = "fail"
-	skip                   status        = "skip"
+	pass                   status        = "passed"
+	fail                   status        = "failed"
+	skip                   status        = "skipped"
 	notExecuted            status        = "not executed"
 	stepKind               tokenKind     = "step"
 	conceptKind            tokenKind     = "concept"
