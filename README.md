@@ -1,8 +1,8 @@
 json-report
 ===========
-[![Build Status](https://travis-ci.org/apoorvam/json-report.svg?branch=master)](https://travis-ci.org/apoorvam/json-report)
+[![Build Status](https://travis-ci.org/getgauge-contrib/json-report.svg?branch=master)](https://travis-ci.org/getgauge-contrib/json-report)
 
-JSON reporting plugin for [Gauge](http://getgauge.io) as per [JSON Schema](https://apoorvam.github.io/json-report/) 
+JSON reporting plugin for [Gauge](http://gauge.org)
 
 Installation
 ------------
@@ -19,7 +19,7 @@ gauge install json-report --version 0.1.0
 ```
 
 ### Offline installation
-* Download the plugin from [Releases](https://github.com/apoorvam/json-report/releases)
+* Download the plugin from [Releases](https://github.com/getgauge-contrib/json-report/releases)
 ```
 gauge install json-report --file <path_to_plugin_zip_file>
 ```
