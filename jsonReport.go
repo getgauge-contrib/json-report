@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/apoorvam/json-report/gauge_messages"
+	"github.com/getgauge-contrib/json-report/gauge_messages"
 	"github.com/getgauge/common"
 )
 
