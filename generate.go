@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/base64"
 
-	"github.com/apoorvam/json-report/gauge_messages"
+	"github.com/getgauge-contrib/json-report/gauge_messages"
 )
 
 type tokenKind string
@@ -178,8 +178,8 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 		PassedScenarioCount:   int(psr.GetScenarioCount() - psr.GetScenarioFailedCount() - psr.GetScenarioSkippedCount()),
 		ExecutionTime:         psr.GetExecutionTime(),
 		ExecutionStatus:       getStatus(psr.GetFailed(), psr.GetSkipped()),
-		BeforeSpecHookFailure: toHookFailure(psr.GetProtoSpec().GetPreHookFailure()),
-		AfterSpecHookFailure:  toHookFailure(psr.GetProtoSpec().GetPostHookFailure()),
+		BeforeSpecHookFailure: toSpecHookFailure(psr.GetProtoSpec().GetPreHookFailures()),
+		AfterSpecHookFailure:  toSpecHookFailure(psr.GetProtoSpec().GetPostHookFailures()),
 	}
 	if psr.GetProtoSpec().GetTags() != nil {
 		spec.Tags = psr.GetProtoSpec().GetTags()
@@ -349,6 +349,14 @@ func toHookFailure(failure *gauge_messages.ProtoHookFailure) *hookFailure {
 		StackTrace: failure.GetStackTrace(),
 	}
 }
+
+func toSpecHookFailure(failures []*gauge_messages.ProtoHookFailure) *hookFailure {
+	if len(failures) > 0 {
+		return toHookFailure(failures[0])
+	}
+	return nil
+}
+
 func getErrorType(protoErrType gauge_messages.ProtoExecutionResult_ErrorType) errorType {
 	if protoErrType == gauge_messages.ProtoExecutionResult_VERIFICATION {
 		return verificationErrorType
