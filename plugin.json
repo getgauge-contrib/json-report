@@ -1,6 +1,6 @@
 {
     "id": "json-report",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "name": "JSON Report",
     "description": "JSON reporting plugin",
     "install": {
@@ -23,7 +23,7 @@
         "Execution"
     ],
     "gaugeVersionSupport": {
-        "minimum": "0.8.0",
+        "minimum": "1.0.6",
         "maximum": ""
     }
 }
