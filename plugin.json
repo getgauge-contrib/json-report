@@ -23,7 +23,7 @@
         "Execution"
     ],
     "gaugeVersionSupport": {
-        "minimum": "1.0.6",
+        "minimum": "1.0.0",
         "maximum": ""
     }
 }
