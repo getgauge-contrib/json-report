@@ -1,6 +1,8 @@
 json-report
 ===========
 
+[![Actions Status](https://github.com/getgauge-contrib/json-report/workflows/tests/badge.svg)](https://github.com/getgauge-contrib/json-report/actions)
+
 JSON reporting plugin for [Gauge](http://gauge.org)
 
 Installation
