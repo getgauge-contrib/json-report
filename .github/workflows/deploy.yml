@@ -1,8 +1,8 @@
-name: tests
+name: deploy
 on: [deployment]
 
 jobs:
-  test:
+  deploy:
     name: deploy json report
     runs-on: macos-latest
     env:
