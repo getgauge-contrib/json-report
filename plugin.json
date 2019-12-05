@@ -23,7 +23,10 @@
         "Execution"
     ],
     "gaugeVersionSupport": {
-        "minimum": "1.0.0",
+        "minimum": "1.0.7",
         "maximum": ""
-    }
+    },
+    "capabilities": [
+        "grpc_support"
+    ]
 }

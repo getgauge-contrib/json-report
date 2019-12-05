@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"log"
 	"net"
 	"os"
@@ -16,14 +15,6 @@ type GaugeResultHandlerFn func(*gauge_messages.SuiteExecutionResult)
 type GaugeListener struct {
 	connection      net.Conn
 	onResultHandler GaugeResultHandlerFn
-}
-
-func newGaugeListener(host string, port string) (*GaugeListener, error) {
-	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%s", host, port))
-	if err == nil {
-		return &GaugeListener{connection: conn}, nil
-	}
-	return nil, err
 }
 
 func (gaugeListener *GaugeListener) OnSuiteResult(resultHandler GaugeResultHandlerFn) {

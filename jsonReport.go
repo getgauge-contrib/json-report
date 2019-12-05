@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/getgauge-contrib/json-report/gauge_messages"
+	"github.com/getgauge-contrib/json-report/logger"
 	"github.com/getgauge/common"
 )
 
@@ -22,7 +23,6 @@ const (
 	jsonReport                  = "json-report"
 	setupAction                 = "setup"
 	executionAction             = "execution"
-	gaugeHost                   = "localhost"
 	gaugePortEnv                = "plugin_connection_port"
 	pluginActionEnv             = "json-report_action"
 	timeFormat                  = "2006-01-02 15.04.05"
@@ -44,8 +44,7 @@ func (T timeStampedNameGenerator) randomName() string {
 func findProjectRoot() {
 	projectRoot = os.Getenv(common.GaugeProjectRootEnv)
 	if projectRoot == "" {
-		fmt.Printf("Environment variable '%s' is not set. \n", common.GaugeProjectRootEnv)
-		os.Exit(1)
+		logger.Fatal("Environment variable '%s' is not set. \n", common.GaugeProjectRootEnv)
 	}
 }
 
@@ -63,35 +62,23 @@ func addDefaultPropertiesToProject() {
 		DefaultValue: "true"})
 
 	if !common.FileExists(defaultPropertiesFile) {
-		fmt.Printf("Failed to setup json report plugin in project. Default properties file does not exist at %s. \n", defaultPropertiesFile)
+		logger.Info("Failed to setup json report plugin in project. Default properties file does not exist at %s. \n", defaultPropertiesFile)
 		return
 	}
 	if err := common.AppendProperties(defaultPropertiesFile, reportsDirProperty, overwriteReportProperty); err != nil {
-		fmt.Printf("Failed to setup json report plugin in project: %s \n", err)
+		logger.Info("Failed to setup json report plugin in project: %s \n", err)
 		return
 	}
-	fmt.Println("Succesfully added configurations for json-report to env/default/default.properties")
-}
-
-func createExecutionReport() {
-	os.Chdir(projectRoot)
-	listener, err := newGaugeListener(gaugeHost, os.Getenv(gaugePortEnv))
-	if err != nil {
-		fmt.Println("Could not create the gauge listener")
-		os.Exit(1)
-	}
-	listener.OnSuiteResult(createReport)
-	listener.Start()
+	logger.Info("Successfully added configurations for json-report to env/default/default.properties")
 }
 
 func createReport(suiteResult *gauge_messages.SuiteExecutionResult) {
 	jsonContents := generateJSONFileContents(suiteResult)
 	reportDir, err := createJSONReport(createReportsDirectory(), jsonContents, getNameGen())
 	if err != nil {
-		fmt.Printf("Report generation failed: %s \n", err)
-		os.Exit(1)
+		logger.Fatal("Report generation failed: %s \n", err)
 	} else {
-		fmt.Printf("Successfully generated json-report to => %s\n", reportDir)
+		logger.Info("Successfully generated json-report to => %s\n", reportDir)
 	}
 }
 
@@ -105,8 +92,7 @@ func generateJSONFileContents(protoSuiteExeResult *gauge_messages.SuiteExecution
 func marshal(item interface{}) []byte {
 	marshalledResult, err := json.MarshalIndent(item, "", "\t")
 	if err != nil {
-		fmt.Printf("Failed to convert to json :%s\n", err)
-		os.Exit(1)
+		logger.Fatal("Failed to convert to json :%s\n", err)
 	}
 	return marshalledResult
 }
@@ -167,7 +153,6 @@ func createDirectory(dir string) {
 		return
 	}
 	if err := os.MkdirAll(dir, common.NewDirectoryPermissions); err != nil {
-		fmt.Printf("Failed to create directory %s: %s\n", defaultReportsDir, err)
-		os.Exit(1)
+		logger.Fatal("Failed to create directory %s: %s\n", defaultReportsDir, err)
 	}
 }
