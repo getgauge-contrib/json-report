@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-const tenGB = 1024 * 1024 * 1024 * 10
+const oneGB = 1024 * 1024 * 1024
 
 func main() {
 	findProjectRoot()
@@ -26,7 +26,7 @@ func main() {
 		if err != nil {
 			logger.Fatal("failed to start server")
 		}
-		server := grpc.NewServer(grpc.MaxRecvMsgSize(tenGB))
+		server := grpc.NewServer(grpc.MaxRecvMsgSize(oneGB))
 		h := &handler{server: server}
 		gauge_messages.RegisterReporterServer(server, h)
 		logger.Info("Listening on port:%d", l.Addr().(*net.TCPAddr).Port)
