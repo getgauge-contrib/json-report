@@ -26,11 +26,11 @@ jobs:
         run: |
           cd deploy
           if [ -z "$version" ]; then
-            version=$(grep '"version"' plugin.json | sed 's/"version":[[:space:]]*"//' | sed 's/",//' | tr -d [:space:])
+            version=$(grep '"version"' ../plugin.json | sed 's/"version":[[:space:]]*"//' | sed 's/",//' | tr -d [:space:])
           fi
           artifacts=()
           dir=`pwd`
-          for i in `ls`; do
+          for i in `ls *.zip`; do
               artifacts+="$dir/$i "
           done
           cd ..
