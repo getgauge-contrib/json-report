@@ -102,14 +102,15 @@ type Parameter struct {
 }
 
 type result struct {
-	Status        status    `json:"status"`
-	StackTrace    string    `json:"stackTrace"`
-	Screenshot    string    `json:"screenshot"`
-	ErrorMessage  string    `json:"errorMessage"`
-	ExecutionTime int64     `json:"executionTime"`
-	SkippedReason string    `json:"skippedReason"`
-	Messages      []string  `json:"messages"`
-	ErrorType     errorType `json:"errorType"`
+	Status                status    `json:"status"`
+	StackTrace            string    `json:"stackTrace"`
+	Screenshot            string    `json:"screenshot"`
+	ErrorMessage          string    `json:"errorMessage"`
+	ExecutionTime         int64     `json:"executionTime"`
+	SkippedReason         string    `json:"skippedReason"`
+	Messages              []string  `json:"messages"`
+	ErrorType             errorType `json:"errorType"`
+	FailureScreenshotFile string    `json:"ScreenshotFile"`
 }
 
 type hookFailure struct {
@@ -273,13 +274,14 @@ func toItems(protoItems []*gauge_messages.ProtoItem) []item {
 func toStep(protoStep *gauge_messages.ProtoStep) *step {
 	res := protoStep.GetStepExecutionResult().GetExecutionResult()
 	result := &result{
-		Status:        getStepStatus(protoStep.GetStepExecutionResult()),
-		Screenshot:    base64.StdEncoding.EncodeToString(res.GetScreenShot()),
-		StackTrace:    res.GetStackTrace(),
-		ErrorMessage:  res.GetErrorMessage(),
-		ExecutionTime: res.GetExecutionTime(),
-		Messages:      make([]string, 0),
-		ErrorType:     getErrorType(res.GetErrorType()),
+		Status:                getStepStatus(protoStep.GetStepExecutionResult()),
+		Screenshot:            base64.StdEncoding.EncodeToString(res.GetScreenShot()),
+		StackTrace:            res.GetStackTrace(),
+		ErrorMessage:          res.GetErrorMessage(),
+		ExecutionTime:         res.GetExecutionTime(),
+		Messages:              make([]string, 0),
+		ErrorType:             getErrorType(res.GetErrorType()),
+		FailureScreenshotFile: res.GetFailureScreenshotFile(),
 	}
 	if protoStep.GetStepExecutionResult().GetSkipped() {
 		result.SkippedReason = protoStep.GetStepExecutionResult().GetSkippedReason()

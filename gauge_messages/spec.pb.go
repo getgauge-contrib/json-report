@@ -5,8 +5,12 @@ package gauge_messages
 
 import (
 	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
+	ioutil "io/ioutil"
 	math "math"
+	"os"
+	"path"
+
+	proto "github.com/golang/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1542,7 +1546,20 @@ func (m *ProtoExecutionResult) GetStackTrace() string {
 // Deprecated: Do not use.
 func (m *ProtoExecutionResult) GetScreenShot() []byte {
 	if m != nil {
-		return m.ScreenShot
+		screenshotFileName := m.FailureScreenshotFile
+		return GetScreenShotFileAsByte(screenshotFileName)
+	}
+	return nil
+}
+
+func GetScreenShotFileAsByte(screenshotFileName string) []byte {
+	if screenshotFileName != "" {
+		src := os.Getenv("gauge_screenshots_dir")
+		file, err := ioutil.ReadFile(path.Join(src, screenshotFileName))
+		if err != nil {
+			return nil
+		}
+		return file
 	}
 	return nil
 }
@@ -1660,7 +1677,7 @@ func (m *ProtoHookFailure) GetErrorMessage() string {
 // Deprecated: Do not use.
 func (m *ProtoHookFailure) GetScreenShot() []byte {
 	if m != nil {
-		return m.ScreenShot
+		return GetScreenShotFileAsByte(m.FailureScreenshotFile)
 	}
 	return nil
 }
