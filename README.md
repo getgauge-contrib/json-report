@@ -91,3 +91,19 @@ For distributable across platforms: Windows and Linux for both x86 and x86_64
 ```
 go run build/make.go --distro --all-platforms
 ```
+
+Contributing
+------------
+
+- Identify/pick an issue
+- raise a pull request
+- one of the maintainers should review and merge.
+
+### Release
+
+Github Actions have been setup for test/deploy of this project. Tests will run for all pull requests, however to make a release, a `deployment` has to be triggered.
+
+To do a release:
+
+- [Create a github Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+- Set `GITHUB_TOKEN` env var to the above value, and invoke [`./release.sh`](release.sh)
