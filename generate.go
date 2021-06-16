@@ -67,27 +67,31 @@ type spec struct {
 }
 
 type scenario struct {
-	Heading                   string       `json:"scenarioHeading"`
-	Tags                      []string     `json:"tags"`
-	ExecutionTime             int64        `json:"executionTime"`
-	ExecutionStatus           status       `json:"executionStatus"`
-	Contexts                  []item       `json:"contexts"`
-	Teardowns                 []item       `json:"teardowns"`
-	Items                     []item       `json:"items"`
-	BeforeScenarioHookFailure *hookFailure `json:"beforeScenarioHookFailure"`
-	AfterScenarioHookFailure  *hookFailure `json:"afterScenarioHookFailure"`
-	SkipErrors                []string     `json:"skipErrors"`
-	TableRowIndex             int          `json:"tableRowIndex"`
+	Heading                    string       `json:"scenarioHeading"`
+	Tags                       []string     `json:"tags"`
+	ExecutionTime              int64        `json:"executionTime"`
+	ExecutionStatus            status       `json:"executionStatus"`
+	Contexts                   []item       `json:"contexts"`
+	Teardowns                  []item       `json:"teardowns"`
+	Items                      []item       `json:"items"`
+	BeforeScenarioHookFailure  *hookFailure `json:"beforeScenarioHookFailure"`
+	BeforeScenarioHookMessages []string     `json:"beforeScenarioHookMessages"`
+	AfterScenarioHookFailure   *hookFailure `json:"afterScenarioHookFailure"`
+	AfterScenarioHookMessages  []string     `json:"afterScenarioHookMessages"`
+	SkipErrors                 []string     `json:"skipErrors"`
+	TableRowIndex              int          `json:"tableRowIndex"`
 }
 
 type step struct {
-	ItemType              tokenKind    `json:"itemType"`
-	StepText              string       `json:"stepText"`
-	Parameters            []Parameter  `json:"parameters"`
-	Table                 *table       `json:"table"`
-	BeforeStepHookFailure *hookFailure `json:"beforeStepHookFailure"`
-	AfterStepHookFailure  *hookFailure `json:"afterStepHookFailure"`
-	Result                *result      `json:"result"`
+	ItemType               tokenKind    `json:"itemType"`
+	StepText               string       `json:"stepText"`
+	Parameters             []Parameter  `json:"parameters"`
+	Table                  *table       `json:"table"`
+	BeforeStepHookFailure  *hookFailure `json:"beforeStepHookFailure"`
+	BeforeStepHookMessages []string     `json:"beforeStepHookMessages"`
+	AfterStepHookFailure   *hookFailure `json:"afterStepHookFailure"`
+	AfterStepHookMessages  []string     `json:"afterStepHookMessages"`
+	Result                 *result      `json:"result"`
 }
 
 func (s *step) kind() tokenKind {
@@ -201,17 +205,25 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 
 func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int) scenario {
 	sce := scenario{
-		Heading:                   protoSce.GetScenarioHeading(),
-		ExecutionTime:             protoSce.GetExecutionTime(),
-		Tags:                      make([]string, 0),
-		ExecutionStatus:           getScenarioStatus(protoSce),
-		Contexts:                  make([]item, 0),
-		Items:                     make([]item, 0),
-		Teardowns:                 make([]item, 0),
-		BeforeScenarioHookFailure: toHookFailure(protoSce.GetPreHookFailure()),
-		AfterScenarioHookFailure:  toHookFailure(protoSce.GetPostHookFailure()),
-		TableRowIndex:             tableRowIndex,
-		SkipErrors:                make([]string, 0),
+		Heading:                    protoSce.GetScenarioHeading(),
+		ExecutionTime:              protoSce.GetExecutionTime(),
+		Tags:                       make([]string, 0),
+		ExecutionStatus:            getScenarioStatus(protoSce),
+		Contexts:                   make([]item, 0),
+		Items:                      make([]item, 0),
+		Teardowns:                  make([]item, 0),
+		BeforeScenarioHookFailure:  toHookFailure(protoSce.GetPreHookFailure()),
+		BeforeScenarioHookMessages: make([]string, 0),
+		AfterScenarioHookFailure:   toHookFailure(protoSce.GetPostHookFailure()),
+		AfterScenarioHookMessages:  make([]string, 0),
+		TableRowIndex:              tableRowIndex,
+		SkipErrors:                 make([]string, 0),
+	}
+	if protoSce.GetPreHookMessages() != nil {
+		sce.BeforeScenarioHookMessages = protoSce.GetPreHookMessages()
+	}
+	if protoSce.GetPostHookMessages() != nil {
+		sce.AfterScenarioHookMessages = protoSce.GetPostHookMessages()
 	}
 	if protoSce.GetSkipErrors() != nil {
 		sce.SkipErrors = protoSce.GetSkipErrors()
@@ -290,11 +302,19 @@ func toStep(protoStep *gauge_messages.ProtoStep) *step {
 		result.Messages = res.GetMessage()
 	}
 	step := &step{
-		ItemType:              stepKind,
-		StepText:              protoStep.GetActualText(),
-		Result:                result,
-		BeforeStepHookFailure: toHookFailure(protoStep.GetStepExecutionResult().GetPreHookFailure()),
-		AfterStepHookFailure:  toHookFailure(protoStep.GetStepExecutionResult().GetPostHookFailure()),
+		ItemType:               stepKind,
+		StepText:               protoStep.GetActualText(),
+		Result:                 result,
+		BeforeStepHookFailure:  toHookFailure(protoStep.GetStepExecutionResult().GetPreHookFailure()),
+		BeforeStepHookMessages: make([]string, 0),
+		AfterStepHookFailure:   toHookFailure(protoStep.GetStepExecutionResult().GetPostHookFailure()),
+		AfterStepHookMessages:  make([]string, 0),
+	}
+	if protoStep.GetPreHookMessages() != nil {
+		step.BeforeStepHookMessages = protoStep.GetPreHookMessages()
+	}
+	if protoStep.GetPostHookMessages() != nil {
+		step.AfterStepHookMessages = protoStep.GetPostHookMessages()
 	}
 
 	params := make([]Parameter, 0)
