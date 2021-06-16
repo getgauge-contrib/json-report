@@ -42,9 +42,23 @@
             "description": "Before suite hook failure information",
             "$ref": "#/definitions/hookFailure"
         },
+        "beforeSuiteHookMessages": {
+            "description": "Custom messages written in before suite hooks",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
         "afterSuiteHookFailure": {
             "description": "After suite hook failure information",
             "$ref": "#/definitions/hookFailure"
+        },
+        "afterSuiteHookMessages": {
+            "description": "Custom messages written in after suite hooks",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
         },
         "passedSpecsCount": {
             "description": "Number of passed specifications",
@@ -81,7 +95,9 @@
         "executionStatus",
         "specResults",
         "beforeSuiteHookFailure",
+        "beforeSuiteHookMessages",
         "afterSuiteHookFailure",
+        "afterSuiteHookMessages",
         "passedSpecsCount",
         "failedSpecsCount",
         "skippedSpecsCount",
@@ -171,9 +187,23 @@
                                 "description": "Before scenario hook failure",
                                 "$ref": "#/definitions/hookFailure"
                             },
+                            "beforeScenarioHookMessages": {
+                                "description": "Custom messages written in before scenario hooks",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
                             "afterScenarioHookFailure": {
                                 "description": "After scenario hook failure",
                                 "$ref": "#/definitions/hookFailure"
+                            },
+                            "afterScenarioHookMessages": {
+                                "description": "Custom messages written in after scenario hooks",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
                             },
                             "skipErrors": {
                                 "description": "Reasons if scenario is skipped",
@@ -196,7 +226,9 @@
                             "teardowns",
                             "items",
                             "beforeScenarioHookFailure",
+                            "beforeScenarioHookMessages",
                             "afterScenarioHookFailure",
+                            "afterScenarioHookMessages",
                             "skipErrors",
                             "tableRowIndex"
                         ]
@@ -214,9 +246,23 @@
                     "description": "Before spec hook failure information",
                     "$ref": "#/definitions/hookFailure"
                 },
+                "beforeSpecHookMessages": {
+                    "description": "Custom messages written in before spec hooks",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "afterSpecHookFailure": {
                     "description": "After spec hook failure information",
                     "$ref": "#/definitions/hookFailure"
+                },
+                "afterSpecHookMessages": {
+                    "description": "Custom messages written in after spec hooks",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "passedScenarioCount": {
                     "description": "Number of passed scenarios in specification",
@@ -241,7 +287,9 @@
                 "isTableDriven",
                 "datatable",
                 "beforeSpecHookFailure",
+                "beforeSpecHookMessages",
                 "afterSpecHookFailure",
+                "afterSpecHookMessages",
                 "passedScenarioCount",
                 "failedScenarioCount",
                 "skippedScenarioCount"
@@ -345,9 +393,23 @@
                     "description": "Before step hook failure information",
                     "$ref": "#/definitions/hookFailure"
                 },
+                "beforeStepHookMessages": {
+                    "description": "Custom messages written in before step hooks",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "afterStepHookFailure": {
                     "description": "After step hook failure information",
                     "$ref": "#/definitions/hookFailure"
+                },
+                "afterStepHookMessages": {
+                    "description": "Custom messages written in after step hooks",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "result": {
                     "description": "Execution result",
@@ -358,7 +420,9 @@
                 "itemType",
                 "stepText",
                 "beforeStepHookFailure",
+                "beforeStepHookMessages",
                 "afterStepHookFailure",
+                "afterStepHookMessages",
                 "result",
                 "parameters"
             ]
