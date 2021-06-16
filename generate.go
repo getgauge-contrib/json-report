@@ -32,38 +32,42 @@ type item interface {
 }
 
 type suiteResult struct {
-	ProjectName            string       `json:"projectName"`
-	Timestamp              string       `json:"timestamp"`
-	SuccessRate            int          `json:"successRate"`
-	Environment            string       `json:"environment"`
-	Tags                   string       `json:"tags"`
-	ExecutionTime          int64        `json:"executionTime"`
-	ExecutionStatus        status       `json:"executionStatus"`
-	SpecResults            []spec       `json:"specResults"`
-	BeforeSuiteHookFailure *hookFailure `json:"beforeSuiteHookFailure"`
-	AfterSuiteHookFailure  *hookFailure `json:"afterSuiteHookFailure"`
-	PassedSpecsCount       int          `json:"passedSpecsCount"`
-	FailedSpecsCount       int          `json:"failedSpecsCount"`
-	SkippedSpecsCount      int          `json:"skippedSpecsCount"`
-	PassedScenariosCount   int          `json:"passedScenariosCount"`
-	FailedScenariosCount   int          `json:"failedScenariosCount"`
-	SkippedScenariosCount  int          `json:"skippedScenariosCount"`
+	ProjectName             string       `json:"projectName"`
+	Timestamp               string       `json:"timestamp"`
+	SuccessRate             int          `json:"successRate"`
+	Environment             string       `json:"environment"`
+	Tags                    string       `json:"tags"`
+	ExecutionTime           int64        `json:"executionTime"`
+	ExecutionStatus         status       `json:"executionStatus"`
+	SpecResults             []spec       `json:"specResults"`
+	BeforeSuiteHookFailure  *hookFailure `json:"beforeSuiteHookFailure"`
+	BeforeSuiteHookMessages []string     `json:"beforeSuiteHookMessages"`
+	AfterSuiteHookFailure   *hookFailure `json:"afterSuiteHookFailure"`
+	AfterSuiteHookMessages  []string     `json:"afterSuiteHookMessages"`
+	PassedSpecsCount        int          `json:"passedSpecsCount"`
+	FailedSpecsCount        int          `json:"failedSpecsCount"`
+	SkippedSpecsCount       int          `json:"skippedSpecsCount"`
+	PassedScenariosCount    int          `json:"passedScenariosCount"`
+	FailedScenariosCount    int          `json:"failedScenariosCount"`
+	SkippedScenariosCount   int          `json:"skippedScenariosCount"`
 }
 
 type spec struct {
-	SpecHeading           string       `json:"specHeading"`
-	FileName              string       `json:"fileName"`
-	Tags                  []string     `json:"tags"`
-	ExecutionTime         int64        `json:"executionTime"`
-	ExecutionStatus       status       `json:"executionStatus"`
-	Scenarios             []scenario   `json:"scenarios"`
-	IsTableDriven         bool         `json:"isTableDriven"`
-	Datatable             *table       `json:"datatable"`
-	BeforeSpecHookFailure *hookFailure `json:"beforeSpecHookFailure"`
-	AfterSpecHookFailure  *hookFailure `json:"afterSpecHookFailure"`
-	PassedScenarioCount   int          `json:"passedScenarioCount"`
-	FailedScenarioCount   int          `json:"failedScenarioCount"`
-	SkippedScenarioCount  int          `json:"skippedScenarioCount"`
+	SpecHeading            string       `json:"specHeading"`
+	FileName               string       `json:"fileName"`
+	Tags                   []string     `json:"tags"`
+	ExecutionTime          int64        `json:"executionTime"`
+	ExecutionStatus        status       `json:"executionStatus"`
+	Scenarios              []scenario   `json:"scenarios"`
+	IsTableDriven          bool         `json:"isTableDriven"`
+	Datatable              *table       `json:"datatable"`
+	BeforeSpecHookFailure  *hookFailure `json:"beforeSpecHookFailure"`
+	BeforeSpecHookMessages []string     `json:"beforeSpecHookMessages"`
+	AfterSpecHookFailure   *hookFailure `json:"afterSpecHookFailure"`
+	AfterSpecHookMessages  []string     `json:"afterSpecHookMessages"`
+	PassedScenarioCount    int          `json:"passedScenarioCount"`
+	FailedScenarioCount    int          `json:"failedScenarioCount"`
+	SkippedScenarioCount   int          `json:"skippedScenarioCount"`
 }
 
 type scenario struct {
@@ -145,18 +149,26 @@ type row struct {
 
 func toSuiteResult(psr *gauge_messages.ProtoSuiteResult) suiteResult {
 	suiteResult := suiteResult{
-		ProjectName:            psr.GetProjectName(),
-		Environment:            psr.GetEnvironment(),
-		Tags:                   psr.GetTags(),
-		ExecutionTime:          psr.GetExecutionTime(),
-		PassedSpecsCount:       len(psr.GetSpecResults()) - int(psr.GetSpecsFailedCount()) - int(psr.GetSpecsSkippedCount()),
-		FailedSpecsCount:       int(psr.GetSpecsFailedCount()),
-		SkippedSpecsCount:      int(psr.GetSpecsSkippedCount()),
-		BeforeSuiteHookFailure: toHookFailure(psr.GetPreHookFailure()),
-		AfterSuiteHookFailure:  toHookFailure(psr.GetPostHookFailure()),
-		SuccessRate:            int(psr.GetSuccessRate()),
-		Timestamp:              psr.GetTimestamp(),
-		ExecutionStatus:        pass,
+		ProjectName:             psr.GetProjectName(),
+		Environment:             psr.GetEnvironment(),
+		Tags:                    psr.GetTags(),
+		ExecutionTime:           psr.GetExecutionTime(),
+		PassedSpecsCount:        len(psr.GetSpecResults()) - int(psr.GetSpecsFailedCount()) - int(psr.GetSpecsSkippedCount()),
+		FailedSpecsCount:        int(psr.GetSpecsFailedCount()),
+		SkippedSpecsCount:       int(psr.GetSpecsSkippedCount()),
+		BeforeSuiteHookFailure:  toHookFailure(psr.GetPreHookFailure()),
+		BeforeSuiteHookMessages: make([]string, 0),
+		AfterSuiteHookFailure:   toHookFailure(psr.GetPostHookFailure()),
+		AfterSuiteHookMessages:  make([]string, 0),
+		SuccessRate:             int(psr.GetSuccessRate()),
+		Timestamp:               psr.GetTimestamp(),
+		ExecutionStatus:         pass,
+	}
+	if psr.GetPreHookMessages() != nil {
+		suiteResult.BeforeSuiteHookMessages = psr.GetPreHookMessages()
+	}
+	if psr.GetPostHookMessages() != nil {
+		suiteResult.AfterSuiteHookMessages = psr.GetPostHookMessages()
 	}
 	if psr.GetFailed() {
 		suiteResult.ExecutionStatus = fail
@@ -174,17 +186,25 @@ func toSuiteResult(psr *gauge_messages.ProtoSuiteResult) suiteResult {
 
 func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 	spec := spec{
-		SpecHeading:           psr.GetProtoSpec().GetSpecHeading(),
-		IsTableDriven:         psr.GetProtoSpec().GetIsTableDriven(),
-		FileName:              psr.GetProtoSpec().GetFileName(),
-		Tags:                  make([]string, 0),
-		FailedScenarioCount:   int(psr.GetScenarioFailedCount()),
-		SkippedScenarioCount:  int(psr.GetScenarioSkippedCount()),
-		PassedScenarioCount:   int(psr.GetScenarioCount() - psr.GetScenarioFailedCount() - psr.GetScenarioSkippedCount()),
-		ExecutionTime:         psr.GetExecutionTime(),
-		ExecutionStatus:       getStatus(psr.GetFailed(), psr.GetSkipped()),
-		BeforeSpecHookFailure: toSpecHookFailure(psr.GetProtoSpec().GetPreHookFailures()),
-		AfterSpecHookFailure:  toSpecHookFailure(psr.GetProtoSpec().GetPostHookFailures()),
+		SpecHeading:            psr.GetProtoSpec().GetSpecHeading(),
+		IsTableDriven:          psr.GetProtoSpec().GetIsTableDriven(),
+		FileName:               psr.GetProtoSpec().GetFileName(),
+		Tags:                   make([]string, 0),
+		FailedScenarioCount:    int(psr.GetScenarioFailedCount()),
+		SkippedScenarioCount:   int(psr.GetScenarioSkippedCount()),
+		PassedScenarioCount:    int(psr.GetScenarioCount() - psr.GetScenarioFailedCount() - psr.GetScenarioSkippedCount()),
+		ExecutionTime:          psr.GetExecutionTime(),
+		ExecutionStatus:        getStatus(psr.GetFailed(), psr.GetSkipped()),
+		BeforeSpecHookFailure:  toSpecHookFailure(psr.GetProtoSpec().GetPreHookFailures()),
+		BeforeSpecHookMessages: make([]string, 0),
+		AfterSpecHookFailure:   toSpecHookFailure(psr.GetProtoSpec().GetPostHookFailures()),
+		AfterSpecHookMessages:  make([]string, 0),
+	}
+	if psr.GetProtoSpec().GetPreHookMessages() != nil {
+		spec.BeforeSpecHookMessages = psr.GetProtoSpec().GetPreHookMessages()
+	}
+	if psr.GetProtoSpec().GetPostHookMessages() != nil {
+		spec.AfterSpecHookMessages = psr.GetProtoSpec().GetPostHookMessages()
 	}
 	if psr.GetProtoSpec().GetTags() != nil {
 		spec.Tags = psr.GetProtoSpec().GetTags()

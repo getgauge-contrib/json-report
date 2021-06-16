@@ -42,9 +42,23 @@
             "description": "Before suite hook failure information",
             "$ref": "#/definitions/hookFailure"
         },
+        "beforeSuiteHookMessages": {
+            "description": "Custom messages written in before suite hooks",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
         "afterSuiteHookFailure": {
             "description": "After suite hook failure information",
             "$ref": "#/definitions/hookFailure"
+        },
+        "afterSuiteHookMessages": {
+            "description": "Custom messages written in after suite hooks",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
         },
         "passedSpecsCount": {
             "description": "Number of passed specifications",
@@ -81,7 +95,9 @@
         "executionStatus",
         "specResults",
         "beforeSuiteHookFailure",
+        "beforeSuiteHookMessages",
         "afterSuiteHookFailure",
+        "afterSuiteHookMessages",
         "passedSpecsCount",
         "failedSpecsCount",
         "skippedSpecsCount",
@@ -230,9 +246,23 @@
                     "description": "Before spec hook failure information",
                     "$ref": "#/definitions/hookFailure"
                 },
+                "beforeSpecHookMessages": {
+                    "description": "Custom messages written in before spec hooks",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "afterSpecHookFailure": {
                     "description": "After spec hook failure information",
                     "$ref": "#/definitions/hookFailure"
+                },
+                "afterSpecHookMessages": {
+                    "description": "Custom messages written in after spec hooks",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "passedScenarioCount": {
                     "description": "Number of passed scenarios in specification",
@@ -257,7 +287,9 @@
                 "isTableDriven",
                 "datatable",
                 "beforeSpecHookFailure",
+                "beforeSpecHookMessages",
                 "afterSpecHookFailure",
+                "afterSpecHookMessages",
                 "passedScenarioCount",
                 "failedScenarioCount",
                 "skippedScenarioCount"
