@@ -4,8 +4,8 @@ import (
 	"net"
 	"os"
 
-	"github.com/getgauge-contrib/json-report/gauge_messages"
 	"github.com/getgauge-contrib/json-report/logger"
+	"github.com/getgauge/gauge-proto/go/gauge_messages"
 	"google.golang.org/grpc"
 )
 
