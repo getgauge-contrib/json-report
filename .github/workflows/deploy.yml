@@ -20,8 +20,6 @@ jobs:
         run: |
           go run build/make.go --all-platforms
           go run build/make.go --all-platforms --distro
-      - name: Install hub
-        run: brew install hub
       - name: update
         run: |
           cd deploy
@@ -40,16 +38,7 @@ jobs:
           echo -e "JSON Report v$version\n\n" > desc.txt
           release_description=$(ruby -e "$(curl -sSfL https://github.com/getgauge/gauge/raw/master/build/create_release_text.rb)" getgauge-contrib json-report)
           echo "$release_description" >> desc.txt
-          echo "Creating new draft for release v$version"
-          hub release create -d -F ./desc.txt "v$version"
-          rm -rf desc.txt
-          echo "Start uploading assets..."
-          for i in `ls $artifacts`; do
-              hub release edit -m "" -a $i "v$version"
-              if [ $? -ne 0 ];then
-                  exit 1
-              fi
-          done
+          gh release create "v$version" -F ./desc.txt $artifacts
       - name: 'deployment success'
         if: success()
         uses: 'deliverybot/status@master'
