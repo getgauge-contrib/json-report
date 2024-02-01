@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/base64"
 
-	"github.com/getgauge-contrib/json-report/gauge_messages"
+	"github.com/getgauge/gauge-proto/go/gauge_messages"
 )
 
 type tokenKind string

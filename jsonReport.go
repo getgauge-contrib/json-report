@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/getgauge-contrib/json-report/gauge_messages"
 	"github.com/getgauge-contrib/json-report/logger"
 	"github.com/getgauge/common"
+	"github.com/getgauge/gauge-proto/go/gauge_messages"
 )
 
 const (
