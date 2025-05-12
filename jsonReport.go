@@ -23,7 +23,6 @@ const (
 	jsonReport                  = "json-report"
 	setupAction                 = "setup"
 	executionAction             = "execution"
-	gaugePortEnv                = "plugin_connection_port"
 	pluginActionEnv             = "json-report_action"
 	timeFormat                  = "2006-01-02 15.04.05"
 )
