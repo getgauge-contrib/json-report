@@ -14,7 +14,7 @@ type LogInfo struct {
 
 func write(info *LogInfo) {
 	b, _ := json.Marshal(info)
-	fmt.Printf(string(b))
+	fmt.Print(string(b))
 }
 
 // Debug log the message with debug log level
