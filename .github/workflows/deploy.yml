@@ -7,7 +7,7 @@ jobs:
     if: github.event.deployment.environment == 'production'
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GAUGEBOT_GITHUB_TOKEN }}'
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +43,8 @@ jobs:
           gh release create --title "Gauge JSON Report v${version}" --notes-file ./desc.txt "v${version}" deploy/*
 
       - name: Update metadata in gauge-repository
+        env:
+          GITHUB_TOKEN: '${{ secrets.GAUGEBOT_GITHUB_TOKEN }}'
         run: |
           git clone https://github.com/getgauge/gauge-repository.git
           cd gauge-repository
