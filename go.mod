@@ -4,7 +4,7 @@ go 1.24
 
 require (
 	github.com/getgauge/common v0.0.0-20250512071011-6a075badb588
-	github.com/getgauge/gauge-proto/go/gauge_messages v0.0.0-20250512065840-f21c74490be4
+	github.com/getgauge/gauge-proto/go/gauge_messages v0.0.0-20250701084704-a1ce52e639cd
 	github.com/xeipuuv/gojsonschema v1.2.0
 	google.golang.org/grpc v1.73.0
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c
@@ -21,6 +21,6 @@ require (
 	golang.org/x/net v0.42.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect
 	golang.org/x/text v0.27.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250505200425-f936aa4a68b2 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250715232539-7130f93afb79 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 )
