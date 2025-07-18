@@ -1,6 +1,6 @@
 module github.com/getgauge-contrib/json-report
 
-go 1.24.5
+go 1.24
 
 require (
 	github.com/getgauge/common v0.0.0-20250512071011-6a075badb588
