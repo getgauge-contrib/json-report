@@ -6,7 +6,7 @@ require (
 	github.com/getgauge/common v0.0.0-20250512071011-6a075badb588
 	github.com/getgauge/gauge-proto/go/gauge_messages v0.0.0-20250701084704-a1ce52e639cd
 	github.com/xeipuuv/gojsonschema v1.2.0
-	google.golang.org/grpc v1.73.0
+	google.golang.org/grpc v1.74.2
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c
 )
 
