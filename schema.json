@@ -11,6 +11,10 @@
             "description": "Timestamp of execution",
             "type": "string"
         },
+        "timestampISO": {
+            "description": "Timestamp of execution in ISO-8601 format",
+            "type": "string"
+        },
         "successRate": {
             "description": "Success rate of execution",
             "type": "integer"

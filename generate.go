@@ -34,6 +34,7 @@ type item interface {
 type suiteResult struct {
 	ProjectName             string       `json:"projectName"`
 	Timestamp               string       `json:"timestamp"`
+	TimestampISO            string       `json:"timestampISO"`
 	SuccessRate             int          `json:"successRate"`
 	Environment             string       `json:"environment"`
 	Tags                    string       `json:"tags"`
@@ -56,6 +57,7 @@ type spec struct {
 	SpecHeading            string       `json:"specHeading"`
 	FileName               string       `json:"fileName"`
 	Tags                   []string     `json:"tags"`
+	TimestampISO           string       `json:"timestampISO"`
 	ExecutionTime          int64        `json:"executionTime"`
 	ExecutionStatus        status       `json:"executionStatus"`
 	Scenarios              []scenario   `json:"scenarios"`
@@ -162,6 +164,7 @@ func toSuiteResult(psr *gauge_messages.ProtoSuiteResult) suiteResult {
 		AfterSuiteHookMessages:  make([]string, 0),
 		SuccessRate:             int(psr.GetSuccessRate()),
 		Timestamp:               psr.GetTimestamp(),
+		TimestampISO:            psr.GetTimestampISO(),
 		ExecutionStatus:         pass,
 	}
 	if psr.GetPreHookMessages() != nil {
@@ -193,6 +196,7 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 		FailedScenarioCount:    int(psr.GetScenarioFailedCount()),
 		SkippedScenarioCount:   int(psr.GetScenarioSkippedCount()),
 		PassedScenarioCount:    int(psr.GetScenarioCount() - psr.GetScenarioFailedCount() - psr.GetScenarioSkippedCount()),
+		TimestampISO:           psr.GetTimestampISO(),
 		ExecutionTime:          psr.GetExecutionTime(),
 		ExecutionStatus:        getStatus(psr.GetFailed(), psr.GetSkipped()),
 		BeforeSpecHookFailure:  toSpecHookFailure(psr.GetProtoSpec().GetPreHookFailures()),
