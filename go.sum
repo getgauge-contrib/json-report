@@ -8,6 +8,8 @@ github.com/getgauge/common v0.0.0-20250512071011-6a075badb588 h1:2w5xN48+MY+CUtn
 github.com/getgauge/common v0.0.0-20250512071011-6a075badb588/go.mod h1:j4ycvkEuUDSM1pYN2HAwjHtT70ErW3gB/tFKIP8znfE=
 github.com/getgauge/gauge-proto/go/gauge_messages v0.0.0-20250701084704-a1ce52e639cd h1:6vcBYHcGt1Nw3Acblub5FmUyNt9E5GlM1us2n6/Xfv0=
 github.com/getgauge/gauge-proto/go/gauge_messages v0.0.0-20250701084704-a1ce52e639cd/go.mod h1:OMCZ/9zoRvl5mS1xJUgvFBM5MwbulLiHVxZ+Exls/f8=
+github.com/getgauge/gauge-proto/go/gauge_messages v0.0.0-20250807074548-a830d747c72b h1:G9JXBz2oJeFiiTvZc6NSN3IJP5ML5rW7cKzeU7Ly0mw=
+github.com/getgauge/gauge-proto/go/gauge_messages v0.0.0-20250807074548-a830d747c72b/go.mod h1:5HXYsvuXOleQccz+zWMbu6QKQcmEJlwzlBTediyhWzQ=
 github.com/go-logr/logr v1.4.3 h1:CjnDlHq8ikf6E492q6eKboGOC0T8CDaOvkHCIg8idEI=
 github.com/go-logr/logr v1.4.3/go.mod h1:9T104GzyrTigFIr8wt5mBrctHMim0Nb2HLGrmQ40KvY=
 github.com/go-logr/stdr v1.2.2 h1:hSWxHoqTgW2S2qGc0LTAI563KZ5YKYRhT3MFKZMbjag=
