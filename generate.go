@@ -86,6 +86,7 @@ type scenario struct {
 	AfterScenarioHookMessages  []string     `json:"afterScenarioHookMessages"`
 	SkipErrors                 []string     `json:"skipErrors"`
 	TableRowIndex              int          `json:"tableRowIndex"`
+	RretriesCount              int          `json:"retriesCount"`
 }
 
 type step struct {
@@ -242,6 +243,7 @@ func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int) scena
 		AfterScenarioHookMessages:  make([]string, 0),
 		TableRowIndex:              tableRowIndex,
 		SkipErrors:                 make([]string, 0),
+		RetriesCount:               protoSce.GetRetriesCount(),
 	}
 	if protoSce.GetPreHookMessages() != nil {
 		sce.BeforeScenarioHookMessages = protoSce.GetPreHookMessages()
