@@ -91,7 +91,8 @@
                     "afterScenarioHookFailure": null,
                     "afterScenarioHookMessages": [],
                     "skipErrors": [],
-                    "tableRowIndex": -1
+                    "tableRowIndex": -1,
+                    "retriesCount": 0
                 },
                 {
                     "scenarioHeading": "Vowel counts in multiple word",
@@ -236,7 +237,8 @@
                     "afterScenarioHookFailure": null,
                     "afterScenarioHookMessages": [],
                     "skipErrors": [],
-                    "tableRowIndex": -1
+                    "tableRowIndex": -1,
+                    "retriesCount": 0
                 }
             ],
             "isTableDriven": false,

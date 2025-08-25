@@ -8,11 +8,12 @@ JSON reporting plugin for [Gauge](http://gauge.org)
 Installation
 ------------
 
-### Install through Gauge 
+### Install through Gauge
 
 ```
 gauge install json-report
 ```
+
 Installing specific version:
 
 ```
@@ -20,7 +21,9 @@ gauge install json-report --version 0.1.0
 ```
 
 ### Offline installation
+
 * Download the plugin from [Releases](https://github.com/getgauge-contrib/json-report/releases)
+
 ```
 gauge install json-report --file <path_to_plugin_zip_file>
 ```
@@ -51,6 +54,7 @@ Build from Source
 -----------------
 
 ### Requirements
+
 * [Golang](http://golang.org/)
 
 ### Compiling
@@ -66,6 +70,7 @@ go run build/make.go --all-platforms
 ```
 
 ### Installing
+
 After compilation
 
 ```
@@ -95,9 +100,9 @@ go run build/make.go --distro --all-platforms
 Contributing
 ------------
 
-- Identify/pick an issue
-- raise a pull request
-- one of the maintainers should review and merge.
+* Identify/pick an issue
+* raise a pull request
+* one of the maintainers should review and merge.
 
 ### Release
 
@@ -105,5 +110,5 @@ Github Actions have been setup for test/deploy of this project. Tests will run f
 
 To do a release:
 
-- [Create a github Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
-- Set `GITHUB_TOKEN` env var to the above value, and invoke [`./release.sh`](release.sh)
+* [Create a github Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+* Set `GITHUB_TOKEN` env var to the above value, and invoke [`./release.sh`](release.sh)
