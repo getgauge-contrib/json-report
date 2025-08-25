@@ -279,6 +279,10 @@
                 "skippedScenarioCount": {
                     "description": "Number of skipped scenarios in specification",
                     "type": "integer"
+                },
+                "retriesCount": {
+                    "description": "Number of retries to execute the scenario",
+                    "type": "integer"
                 }
             },
             "required": [

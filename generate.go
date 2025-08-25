@@ -86,7 +86,7 @@ type scenario struct {
 	AfterScenarioHookMessages  []string     `json:"afterScenarioHookMessages"`
 	SkipErrors                 []string     `json:"skipErrors"`
 	TableRowIndex              int          `json:"tableRowIndex"`
-	RretriesCount              int          `json:"retriesCount"`
+	RetriesCount               int64        `json:"retriesCount"`
 }
 
 type step struct {
