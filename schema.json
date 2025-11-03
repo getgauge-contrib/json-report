@@ -219,6 +219,10 @@
                             "tableRowIndex": {
                                 "description": "Table row index, if its a table driven execution",
                                 "type": "integer"
+                            },
+                            "retriesCount": {
+                                "description": "Number of retries to execute the scenario",
+                                "type": "integer"
                             }
                         },
                         "required": [
@@ -234,7 +238,8 @@
                             "afterScenarioHookFailure",
                             "afterScenarioHookMessages",
                             "skipErrors",
-                            "tableRowIndex"
+                            "tableRowIndex",
+                            "retriesCount"
                         ]
                     }
                 },
