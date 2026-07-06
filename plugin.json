@@ -1,6 +1,6 @@
 {
     "id": "json-report",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "name": "JSON Report",
     "description": "JSON reporting plugin",
     "install": {
