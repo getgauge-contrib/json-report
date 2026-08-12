@@ -86,6 +86,7 @@ type scenario struct {
 	AfterScenarioHookMessages  []string     `json:"afterScenarioHookMessages"`
 	SkipErrors                 []string     `json:"skipErrors"`
 	TableRowIndex              int          `json:"tableRowIndex"`
+	ScenarioTableRowIndex      int          `json:"scenarioTableRowIndex"`
 	RetriesCount               int64        `json:"retriesCount"`
 }
 
@@ -218,9 +219,17 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 	for _, item := range psr.GetProtoSpec().GetItems() {
 		switch item.GetItemType() {
 		case gauge_messages.ProtoItem_Scenario:
-			spec.Scenarios = append(spec.Scenarios, toScenario(item.GetScenario(), -1))
+			spec.Scenarios = append(spec.Scenarios, toScenario(item.GetScenario(), -1, -1))
 		case gauge_messages.ProtoItem_TableDrivenScenario:
-			spec.Scenarios = append(spec.Scenarios, toScenario(item.GetTableDrivenScenario().GetScenario(), int(item.GetTableDrivenScenario().GetTableRowIndex())))
+			tds := item.GetTableDrivenScenario()
+			spec.Scenarios = append(
+				spec.Scenarios,
+				toScenario(
+					tds.GetScenario(),
+					int(tds.GetTableRowIndex()),
+					int(tds.GetScenarioTableRowIndex()),
+				),
+			)
 		case gauge_messages.ProtoItem_Table:
 			spec.Datatable = toTable(item.GetTable())
 		}
@@ -228,7 +237,7 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 	return spec
 }
 
-func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int) scenario {
+func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int, scenarioTableRowIndex int) scenario {
 	sce := scenario{
 		Heading:                    protoSce.GetScenarioHeading(),
 		ExecutionTime:              protoSce.GetExecutionTime(),
@@ -242,6 +251,7 @@ func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int) scena
 		AfterScenarioHookFailure:   toHookFailure(protoSce.GetPostHookFailure()),
 		AfterScenarioHookMessages:  make([]string, 0),
 		TableRowIndex:              tableRowIndex,
+		ScenarioTableRowIndex:      scenarioTableRowIndex,
 		SkipErrors:                 make([]string, 0),
 		RetriesCount:               protoSce.GetRetriesCount(),
 	}
