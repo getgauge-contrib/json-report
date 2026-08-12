@@ -92,6 +92,7 @@
                     "afterScenarioHookMessages": [],
                     "skipErrors": [],
                     "tableRowIndex": -1,
+                    "scenarioTableRowIndex": -1,
                     "retriesCount": 0
                 },
                 {
@@ -238,6 +239,7 @@
                     "afterScenarioHookMessages": [],
                     "skipErrors": [],
                     "tableRowIndex": -1,
+                    "scenarioTableRowIndex": -1,
                     "retriesCount": 0
                 }
             ],
