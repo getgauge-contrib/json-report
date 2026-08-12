@@ -34,7 +34,8 @@ func TestToScenario_SetsRetriesCount(t *testing.T) {
 	}
 
 	tableRowIndex := 0
-	sc := toScenario(protoSce, tableRowIndex)
+	scenarioTableRowIndex := -1
+	sc := toScenario(protoSce, tableRowIndex, scenarioTableRowIndex)
 
 	if sc.RetriesCount != expectedRetries {
 		t.Errorf("Expected RetriesCount to be %d, but got %d", expectedRetries, sc.RetriesCount)
