@@ -91,8 +91,10 @@
           "afterScenarioHookFailure": null,
           "afterScenarioHookMessages": [],
           "skipErrors": [],
+          "isSpecTableDriven": false,
           "tableRowIndex": -1,
           "retriesCount": 0,
+          "isScenarioTableDriven": false,
           "scenarioTableRowIndex": -1
         },
         {
@@ -238,8 +240,10 @@
           "afterScenarioHookFailure": null,
           "afterScenarioHookMessages": [],
           "skipErrors": [],
+          "isSpecTableDriven": false,
           "tableRowIndex": -1,
           "retriesCount": 0,
+          "isScenarioTableDriven": false,
           "scenarioTableRowIndex": -1
         }
       ],

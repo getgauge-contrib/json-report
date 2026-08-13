@@ -85,7 +85,9 @@ type scenario struct {
 	AfterScenarioHookFailure   *hookFailure `json:"afterScenarioHookFailure"`
 	AfterScenarioHookMessages  []string     `json:"afterScenarioHookMessages"`
 	SkipErrors                 []string     `json:"skipErrors"`
+	IsSpecTableDriven          bool         `json:"isSpecTableDriven"`
 	TableRowIndex              int          `json:"tableRowIndex"`
+	IsScenarioTableDriven      bool         `json:"isScenarioTableDriven"`
 	ScenarioTableRowIndex      int          `json:"scenarioTableRowIndex"`
 	RetriesCount               int64        `json:"retriesCount"`
 }
@@ -219,7 +221,7 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 	for _, item := range psr.GetProtoSpec().GetItems() {
 		switch item.GetItemType() {
 		case gauge_messages.ProtoItem_Scenario:
-			spec.Scenarios = append(spec.Scenarios, toScenario(item.GetScenario(), -1, -1))
+			spec.Scenarios = append(spec.Scenarios, toScenario(item.GetScenario(), -1, -1, false, false))
 		case gauge_messages.ProtoItem_TableDrivenScenario:
 			tds := item.GetTableDrivenScenario()
 			spec.Scenarios = append(
@@ -228,6 +230,8 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 					tds.GetScenario(),
 					int(tds.GetTableRowIndex()),
 					int(tds.GetScenarioTableRowIndex()),
+					tds.GetIsSpecTableDriven(),
+					tds.GetIsScenarioTableDriven(),
 				),
 			)
 		case gauge_messages.ProtoItem_Table:
@@ -237,7 +241,7 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 	return spec
 }
 
-func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int, scenarioTableRowIndex int) scenario {
+func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int, scenarioTableRowIndex int, isSpecTableDriven bool, isScenarioTableDriven bool) scenario {
 	sce := scenario{
 		Heading:                    protoSce.GetScenarioHeading(),
 		ExecutionTime:              protoSce.GetExecutionTime(),
@@ -250,7 +254,9 @@ func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int, scena
 		BeforeScenarioHookMessages: make([]string, 0),
 		AfterScenarioHookFailure:   toHookFailure(protoSce.GetPostHookFailure()),
 		AfterScenarioHookMessages:  make([]string, 0),
+		IsSpecTableDriven:          isSpecTableDriven,
 		TableRowIndex:              tableRowIndex,
+		IsScenarioTableDriven:      isScenarioTableDriven,
 		ScenarioTableRowIndex:      scenarioTableRowIndex,
 		SkipErrors:                 make([]string, 0),
 		RetriesCount:               protoSce.GetRetriesCount(),
