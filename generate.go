@@ -242,6 +242,16 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 }
 
 func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int, scenarioTableRowIndex int, isSpecTableDriven bool, isScenarioTableDriven bool) scenario {
+	if !isSpecTableDriven {
+		// Default must not be 0 but -1 if spec data table is not used
+		// Generated function is returning 0 though!
+		tableRowIndex = -1
+	}
+	if !isScenarioTableDriven {
+		// Default must not be 0 but -1 if scenario data table is not used
+		// Generated function is returning 0 though!
+		scenarioTableRowIndex = -1
+	}
 	sce := scenario{
 		Heading:                    protoSce.GetScenarioHeading(),
 		ExecutionTime:              protoSce.GetExecutionTime(),
