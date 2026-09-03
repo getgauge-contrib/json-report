@@ -216,9 +216,17 @@
                                     "type": "string"
                                 }
                             },
+                            "isSpecTableDriven": {
+                                "description": "True, if scenario is driven by a specification data table",
+                                "type": "boolean"
+                            },
                             "tableRowIndex": {
                                 "description": "Table row index, if its a table driven execution",
                                 "type": "integer"
+                            },
+                            "isScenarioTableDriven": {
+                                "description": "True, if scenario is driven by a scenario data table",
+                                "type": "boolean"
                             },
                             "scenarioTableRowIndex": {
                                 "description": "Scenario table row index, if its a table driven execution within a scenario",
