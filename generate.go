@@ -87,6 +87,8 @@ type scenario struct {
 	SkipErrors                 []string     `json:"skipErrors"`
 	TableRowIndex              int          `json:"tableRowIndex"`
 	ScenarioTableRowIndex      int          `json:"scenarioTableRowIndex"`
+	ScenarioDataTable          *table       `json:"scenarioDataTable"`
+	ScenarioTableRow           *table       `json:"scenarioTableRow"`
 	RetriesCount               int64        `json:"retriesCount"`
 }
 
@@ -221,20 +223,27 @@ func toSpec(psr *gauge_messages.ProtoSpecResult) spec {
 		case gauge_messages.ProtoItem_Scenario:
 			spec.Scenarios = append(spec.Scenarios, toScenario(item.GetScenario(), -1, -1))
 		case gauge_messages.ProtoItem_TableDrivenScenario:
-			tds := item.GetTableDrivenScenario()
-			spec.Scenarios = append(
-				spec.Scenarios,
-				toScenario(
-					tds.GetScenario(),
-					int(tds.GetTableRowIndex()),
-					int(tds.GetScenarioTableRowIndex()),
-				),
-			)
+			spec.Scenarios = append(spec.Scenarios, toTableDrivenScenario(item.GetTableDrivenScenario()))
 		case gauge_messages.ProtoItem_Table:
 			spec.Datatable = toTable(item.GetTable())
 		}
 	}
 	return spec
+}
+
+func toTableDrivenScenario(tds *gauge_messages.ProtoTableDrivenScenario) scenario {
+	sce := toScenario(tds.GetScenario(), int(tds.GetTableRowIndex()), int(tds.GetScenarioTableRowIndex()))
+	// Gauge also sends an empty scenario table row for scenarios which are only spec table driven,
+	// so the scenario table is only reported for scenario table driven executions.
+	if tds.GetIsScenarioTableDriven() {
+		if tds.GetScenarioDataTable() != nil {
+			sce.ScenarioDataTable = toTable(tds.GetScenarioDataTable())
+		}
+		if tds.GetScenarioTableRow() != nil {
+			sce.ScenarioTableRow = toTable(tds.GetScenarioTableRow())
+		}
+	}
+	return sce
 }
 
 func toScenario(protoSce *gauge_messages.ProtoScenario, tableRowIndex int, scenarioTableRowIndex int) scenario {
