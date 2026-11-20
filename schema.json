@@ -224,6 +224,14 @@
                                 "description": "Scenario table row index, if its a table driven execution within a scenario",
                                 "type": "integer"
                             },
+                            "scenarioDataTable": {
+                                "description": "Scenario data table, if its a table driven execution within a scenario",
+                                "$ref": "#/definitions/table"
+                            },
+                            "scenarioTableRow": {
+                                "description": "Scenario data table row the scenario was executed with, if its a table driven execution within a scenario",
+                                "$ref": "#/definitions/table"
+                            },
                             "retriesCount": {
                                 "description": "Number of retries to execute the scenario",
                                 "type": "integer"
@@ -244,6 +252,8 @@
                             "skipErrors",
                             "tableRowIndex",
                             "scenarioTableRowIndex",
+                            "scenarioDataTable",
+                            "scenarioTableRow",
                             "retriesCount"
                         ]
                     }
