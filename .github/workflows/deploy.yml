@@ -14,7 +14,7 @@ on:
 
 jobs:
   release-and-bump-version:
-    if: github.event.deployment.environment == 'production'
+    if: github.event.deployment.environment == 'production' || inputs.environment == 'production'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
