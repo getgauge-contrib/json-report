@@ -1,6 +1,16 @@
 name: Release on PR Merge
 
-on: deployment
+on: 
+  deployment:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
 
 jobs:
   release-and-bump-version:
